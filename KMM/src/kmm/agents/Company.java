@@ -5,24 +5,34 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author adrianohrl
  */
-public abstract class Company {
+@Entity
+public abstract class Company implements Serializable {
     
-    private long code;
-    private String fantasyName;
+    @Id
     private String businessName;
+    private String fantasyName;
     private String phone;
     private String fax;
+    @Temporal(TemporalType.DATE)
     private Calendar foundationDate;
     private String cnpj;
     private String ie;
     private String im;
+    @OneToOne
     private CompanyType type;
+    @OneToOne
     private Address address;
 
     public Company() {
@@ -50,12 +60,12 @@ public abstract class Company {
         this.address = address;
     }
 
-    public long getCode() {
-        return code;
+    public String getBusinessName() {
+        return businessName;
     }
 
-    public void setCode(long code) {
-        this.code = code;
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
 
     public String getFantasyName() {
@@ -64,14 +74,6 @@ public abstract class Company {
 
     public void setFantasyName(String fantasyName) {
         this.fantasyName = fantasyName;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
     }
 
     public String getPhone() {

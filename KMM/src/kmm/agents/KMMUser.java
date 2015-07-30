@@ -5,7 +5,12 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
@@ -20,25 +25,28 @@ import kmm.paycheck.Schedule;
  *
  * @author adrianohrl
  */
-public class User extends Employee {
+@Entity
+public class KMMUser extends Employee implements Serializable {
     
     private String login;
     private String password;
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar lastLoginDate;
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar lastLogoutDate;
     private boolean master = false;
 
-    public User() {
+    public KMMUser() {
     }
     
-    public User(User user) {
+    public KMMUser(KMMUser user) {
         super(user);
         this.login = user.login;
         this.password = user.password;
         this.master = user.master;
     }
 
-    public User(String login, String password, Calendar lastLoginDate, Calendar lastLogoutDate, Employee employee) {
+    public KMMUser(String login, String password, Calendar lastLoginDate, Calendar lastLogoutDate, Employee employee) {
         super(employee);
         this.login = login;
         this.password = password;
@@ -46,8 +54,8 @@ public class User extends Employee {
         this.lastLogoutDate = lastLogoutDate;
     }
 
-    public User(String login, String password, boolean master, int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
-        super(bookNumber, pageNumber, hiringDate, firingDate, workload, profession, period, carteiraDeTrabalho, pis, salary, schedule, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
+    public KMMUser(String login, String password, boolean master, int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
+        super(bookNumber, pageNumber, hiringDate, firingDate, workload, profession, period, carteiraDeTrabalho, pis, salary, schedule, skills, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
         this.login = login;
         this.password = password;
         this.master = master;

@@ -5,15 +5,20 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import kmm.agents.Person;
 
 /**
  *
  * @author adrianohrl
  */
-public abstract class IndividualDocument extends Document {
+@Entity
+public abstract class IndividualDocument extends Document implements Serializable {
     
+    @OneToOne
     private Person individual;
 
     public IndividualDocument() {

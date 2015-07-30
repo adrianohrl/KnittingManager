@@ -5,7 +5,15 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.agents.Company;
 import kmm.agents.Profession;
 
@@ -13,12 +21,18 @@ import kmm.agents.Profession;
  *
  * @author adrianohrl
  */
-public class EmploymentContract {
+@Entity
+public class EmploymentContract implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
+    @Temporal(TemporalType.DATE)
     private Calendar hiringDate;
     private float salary;
+    @OneToOne
     private Company company;
+    @OneToOne
     private Profession profession;
 
     public EmploymentContract() {

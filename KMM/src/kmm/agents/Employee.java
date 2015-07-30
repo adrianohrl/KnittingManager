@@ -5,9 +5,16 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
@@ -22,22 +29,33 @@ import kmm.paycheck.Schedule;
  *
  * @author adrianohrl
  */
-public class Employee extends Person {
+@Entity
+public class Employee extends PersonWithSkills implements Serializable {
     
     private int bookNumber;
     private int pageNumber;
+    @Temporal(TemporalType.DATE)
     private Calendar hiringDate;
+    @Temporal(TemporalType.DATE)
     private Calendar firingDate;
     private float workload;
+    @OneToOne
     private Profession profession;
+    @OneToOne
     private WorkingPeriod period;
+    @OneToMany
     private List<PeriodicalExam> exams = new ArrayList<>();
+    @OneToOne
     private PeriodicalExam lastExam;
+    @OneToOne
     private CarteiraDeTrabalho carteiraDeTrabalho;
+    @OneToOne
     private PIS pis;
-    private List<Skill> skills = new ArrayList<>();
+    @OneToMany
     private List<Dependent> dependents = new ArrayList<>();
+    @OneToOne
     private Salary salary;
+    @OneToOne
     private Schedule schedule;
 
     public Employee() {
@@ -56,14 +74,13 @@ public class Employee extends Person {
         this.lastExam = employee.lastExam;
         this.carteiraDeTrabalho = employee.carteiraDeTrabalho;
         this.pis = employee.pis;
-        this.skills = employee.skills;
         this.dependents = employee.dependents;
         this.salary = employee.salary;
         this.schedule = employee.schedule;
     }
 
-    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, Person person) {
-        super(person);
+    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, PersonWithSkills personWithSkills) {
+        super(personWithSkills);
         this.bookNumber = bookNumber;
         this.pageNumber = pageNumber;
         this.hiringDate = hiringDate;
@@ -77,8 +94,8 @@ public class Employee extends Person {
         this.schedule = schedule;
     }
 
-    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
-        super(name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
+    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
+        super(skills, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
         this.bookNumber = bookNumber;
         this.pageNumber = pageNumber;
         this.hiringDate = hiringDate;
@@ -178,14 +195,6 @@ public class Employee extends Person {
 
     public void setPis(PIS pis) {
         this.pis = pis;
-    }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
     }
 
     public List<Dependent> getDependents() {

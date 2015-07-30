@@ -6,6 +6,8 @@
 package kmm.documents;
 
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import kmm.agents.Bank;
 import kmm.agents.Person;
 
@@ -13,8 +15,10 @@ import kmm.agents.Person;
  *
  * @author adrianohrl
  */
+@Entity
 public class PIS extends IndividualDocument {
     
+    @OneToOne
     private Bank bank;
 
     public PIS(Bank bank, Person individual, String number) {

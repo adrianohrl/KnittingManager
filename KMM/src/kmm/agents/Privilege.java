@@ -5,46 +5,22 @@
  */
 package kmm.agents;
 
+import kmm.DescriptableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class Privilege {
-    
-    private long code;
-    private String privilege;
-    private String description;
+@Entity
+public class Privilege extends DescriptableObject implements Serializable {
 
     public Privilege() {
     }
 
     public Privilege(String privilege, String description) {
-        this.privilege = privilege;
-        this.description = description;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getPrivilege() {
-        return privilege;
-    }
-
-    public void setPrivilege(String privilege) {
-        this.privilege = privilege;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        super(privilege, description);
     }
     
 }

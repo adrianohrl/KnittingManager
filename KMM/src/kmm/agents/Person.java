@@ -5,7 +5,13 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
@@ -16,23 +22,33 @@ import kmm.documents.TituloDeEleitor;
  *
  * @author adrianohrl
  */
-public class Person {
+@Entity
+public class Person implements Serializable {
     
-    private long code;
+    @Id
     private String name;
+    @Temporal(TemporalType.DATE)
     private Calendar dob;
     private String phone;
     private String fatherName;
     private String motherName;
-    private String nationality;
+    private String nationality = "Brasileiro";
     private String email;
+    @OneToOne
     private Gender gender;
+    @OneToOne
     private CivilStatus civilStatus;
+    @OneToOne
     private Address address;
+    @OneToOne
     private RG rg;
+    @OneToOne
     private CPF cpf;
+    @OneToOne
     private CNH cnh;
+    @OneToOne
     private TituloDeEleitor tituloDeEleitor;
+    @OneToOne
     private CarteiraDeReservista reservista;
 
     public Person() {
@@ -101,14 +117,6 @@ public class Person {
         this.cnh = cnh;
         this.tituloDeEleitor = tituloDeEleitor;
         this.reservista = reservista;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
     }
 
     public String getName() {

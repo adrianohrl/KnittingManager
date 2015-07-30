@@ -5,19 +5,34 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.agents.Employee;
 
 /**
  *
  * @author adrianohrl
  */
-public class VacationNote {
+@Entity
+public class VacationNote implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int code;
+    @Temporal(TemporalType.DATE)
     private Calendar startDate;
+    @Temporal(TemporalType.DATE)
     private Calendar endDate;
+    @Temporal(TemporalType.DATE)
     private Calendar noteDate;
+    @OneToOne
     private Employee responsible;
 
     public VacationNote() {

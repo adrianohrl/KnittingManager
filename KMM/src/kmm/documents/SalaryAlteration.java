@@ -5,19 +5,32 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.agents.Employee;
 
 /**
  *
  * @author adrianohrl
  */
-public class SalaryAlteration {
+@Entity
+public class SalaryAlteration implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;    
     private float newSalary;
+    @Temporal(TemporalType.DATE)
     private Calendar alterationDate;
     private String reason;
+    @OneToOne
     private Employee responsible;
 
     public SalaryAlteration() {

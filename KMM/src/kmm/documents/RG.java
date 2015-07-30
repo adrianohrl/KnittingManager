@@ -6,12 +6,14 @@
 package kmm.documents;
 
 import java.util.Calendar;
+import javax.persistence.Entity;
 import kmm.agents.Person;
 
 /**
  *
  * @author adrianohrl
  */
+@Entity
 public class RG extends IndividualDocument {
 
     public RG() {

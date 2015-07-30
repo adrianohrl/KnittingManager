@@ -5,38 +5,25 @@
  */
 package kmm.agents;
 
+import kmm.NameableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class CompanyType {
+@Entity
+public class CompanyType extends NameableObject implements Serializable {
     
-    private long code;
-    private String type;
     private String abbreviation;
 
     public CompanyType() {
     }
 
     public CompanyType(String type, String abbreviation) {
-        this.type = type;
+        super(type);
         this.abbreviation = abbreviation;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAbbreviation() {

@@ -5,16 +5,27 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author adrianohrl
  */
-public class PeriodicalExam {
+@Entity
+public class PeriodicalExam implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
     private String doctorName;
+    @Temporal(TemporalType.DATE)
     private Calendar examDate;
     private String observations;
 

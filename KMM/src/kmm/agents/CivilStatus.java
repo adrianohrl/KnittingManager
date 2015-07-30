@@ -5,38 +5,25 @@
  */
 package kmm.agents;
 
+import kmm.NameableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class CivilStatus {
+@Entity
+public class CivilStatus extends NameableObject implements Serializable {
     
-    private long code;
-    private String status;
     private boolean married = false;
 
     public CivilStatus() {
     }
 
     public CivilStatus(String status, boolean married) {
-        this.status = status;
+        super(status);
         this.married = married;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public boolean isMarried() {

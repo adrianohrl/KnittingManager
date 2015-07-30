@@ -5,17 +5,24 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /**
  *
  * @author adrianohrl
  */
-public class Bank {
+@Entity
+public class Bank implements Serializable {
     
-    private long code;
+    @Id
     private String name;
     private String number;
     private String agency;
     private String comments;
+    @OneToOne
     private Address address;
 
     public Bank() {
@@ -33,14 +40,6 @@ public class Bank {
         this.agency = agency;
         this.comments = comments;
         this.address = address;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
     }
 
     public String getName() {

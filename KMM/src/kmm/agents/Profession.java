@@ -5,14 +5,17 @@
  */
 package kmm.agents;
 
+import kmm.NameableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class Profession {
+@Entity
+public class Profession extends NameableObject implements Serializable {
     
-    private long code;
-    private String profession;
     private int registration;
     private long cboAndMteNumber;
 
@@ -20,25 +23,9 @@ public class Profession {
     }
 
     public Profession(String profession, int registration, long cboAndMteNumber) {
-        this.profession = profession;
+        super(profession);
         this.registration = registration;
         this.cboAndMteNumber = cboAndMteNumber;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
     }
 
     public int getRegistration() {

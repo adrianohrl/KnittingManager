@@ -5,16 +5,23 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author adrianohrl
  */
-public abstract class Document {
+@Entity
+public abstract class Document implements Serializable {
     
-    private long code;
+    @Id
     private String number;
+    @Temporal(TemporalType.DATE)
     private Calendar emissionDate;
 
     public Document() {
@@ -27,14 +34,6 @@ public abstract class Document {
     public Document(String number, Calendar emissionDate) {
         this.number = number;
         this.emissionDate = emissionDate;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
     }
 
     public String getNumber() {

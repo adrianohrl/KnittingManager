@@ -5,19 +5,29 @@
  */
 package kmm.documents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import kmm.agents.Person;
 
 /**
  *
  * @author adrianohrl
  */
-public class CNH extends IndividualDocument {
+@Entity
+public class CNH extends IndividualDocument implements Serializable {
     
+    @OneToOne
     private RG rg;
+    @OneToOne
     private CPF cpf;
     private String category;
+    @Temporal(TemporalType.DATE)
     private Calendar firstCNH;
+    @Temporal(TemporalType.DATE)
     private Calendar expirationDate;
     private boolean permission = false;
     private boolean acc = false;
@@ -34,30 +44,30 @@ public class CNH extends IndividualDocument {
         super(individual, number, emissionDate);
     }
 
-    public CNH(RG rg, CPF cpf, String category, Calendar expirationDate, Person individual, String number) {
+    public CNH(String category, Calendar expirationDate, Person individual, String number) {
         super(individual, number);
-        this.rg = rg;
-        this.cpf = cpf;
+        this.rg = individual.getRg();
+        this.cpf = individual.getCpf();
         this.category = category;
         this.expirationDate = expirationDate;
     }
 
-    public CNH(RG rg, CPF cpf, String category, Calendar expirationDate, Person individual, String number, Calendar emissionDate) {
+    public CNH(String category, Calendar expirationDate, Person individual, String number, Calendar emissionDate) {
         super(individual, number, emissionDate);
-        this.rg = rg;
-        this.cpf = cpf;
+        this.rg = individual.getRg();
+        this.cpf = individual.getCpf();
         this.category = category;
         this.expirationDate = expirationDate;
     }
 
-    public CNH(RG rg, CPF cpf, String category, Calendar firstCNH, Calendar expirationDate, String observations, Person individual, String number, Calendar emissionDate) {
-        this(rg, cpf, category, expirationDate, individual, number, emissionDate);
+    public CNH(String category, Calendar firstCNH, Calendar expirationDate, String observations, Person individual, String number, Calendar emissionDate) {
+        this(category, expirationDate, individual, number, emissionDate);
         this.firstCNH = firstCNH;
         this.observations = observations;
     }
 
-    public CNH(RG rg, CPF cpf, String category, Calendar firstCNH, Calendar expirationDate, String observations, Person individual, String number, Calendar emissionDate, boolean permission, boolean acc) {
-        this(rg, cpf, category, firstCNH, expirationDate, observations, individual, number, emissionDate);
+    public CNH(String category, Calendar firstCNH, Calendar expirationDate, String observations, Person individual, String number, Calendar emissionDate, boolean permission, boolean acc) {
+        this(category, firstCNH, expirationDate, observations, individual, number, emissionDate);
         this.permission = permission;
         this.acc = acc;
     }

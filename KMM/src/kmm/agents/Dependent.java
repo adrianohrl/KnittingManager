@@ -5,7 +5,11 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
@@ -16,21 +20,24 @@ import kmm.documents.TituloDeEleitor;
  *
  * @author adrianohrl
  */
-public class Dependent extends Person {
+@Entity
+public class Dependent extends Person implements Serializable {
     
+    @ManyToOne
     private Employee employee;
-    private String kinship;
+    @OneToOne
+    private Kinship kinship;
 
     public Dependent() {
     }
 
-    public Dependent(Employee employee, String kinship, String name, Calendar dob, Gender gender, CivilStatus civilStatus, RG rg, CPF cpf) {
+    public Dependent(Employee employee, Kinship kinship, String name, Calendar dob, Gender gender, CivilStatus civilStatus, RG rg, CPF cpf) {
         super(name, dob, gender, civilStatus, rg, cpf);
         this.employee = employee;
         this.kinship = kinship;
     }
 
-    public Dependent(Employee employee, String kinship, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
+    public Dependent(Employee employee, Kinship kinship, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
         super(name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
         this.employee = employee;
         this.kinship = kinship;
@@ -44,11 +51,11 @@ public class Dependent extends Person {
         this.employee = employee;
     }
 
-    public String getKinship() {
+    public Kinship getKinship() {
         return kinship;
     }
 
-    public void setKinship(String kinship) {
+    public void setKinship(Kinship kinship) {
         this.kinship = kinship;
     }
     

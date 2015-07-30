@@ -5,36 +5,22 @@
  */
 package kmm.agents;
 
+import kmm.NameableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class WorkingPeriod {
-    
-    private long code;
-    private String period;
+@Entity
+public class WorkingPeriod extends NameableObject implements Serializable {
 
     public WorkingPeriod() {
     }
 
     public WorkingPeriod(String period) {
-        this.period = period;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(String period) {
-        this.period = period;
+        super(period);
     }
     
 }

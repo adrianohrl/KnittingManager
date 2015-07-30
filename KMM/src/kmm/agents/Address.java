@@ -5,12 +5,21 @@
  */
 package kmm.agents;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author adrianohrl
  */
-public class Address {
+@Entity
+public class Address implements Serializable {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
     private String street;
     private String identifier;
@@ -18,7 +27,7 @@ public class Address {
     private String zip;
     private String city;
     private String county;
-    private String state;
+    private String stateName;
     private String country;
     private String complement;
 
@@ -31,7 +40,7 @@ public class Address {
         this.district = district;
         this.zip = zip;
         this.city = city;
-        this.state = state;
+        this.stateName = state;
         this.country = country;
         this.complement = complement;
     }
@@ -97,12 +106,12 @@ public class Address {
         this.county = county;
     }
 
-    public String getState() {
-        return state;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStateName(String state) {
+        this.stateName = state;
     }
 
     public String getCountry() {

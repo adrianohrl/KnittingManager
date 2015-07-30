@@ -5,38 +5,25 @@
  */
 package kmm.agents;
 
+import kmm.NameableObject;
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author adrianohrl
  */
-public class Gender {
+@Entity
+public class Gender extends NameableObject implements Serializable {
     
-    private long code;
-    private String name;
     private boolean male = false;
 
     public Gender() {
     }
 
-    public Gender(String name, boolean male) {
-        this.name = name;
+    public Gender(String gender, boolean male) {
+        super(gender);
         this.male = male;
-    }
-
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean isMale() {
