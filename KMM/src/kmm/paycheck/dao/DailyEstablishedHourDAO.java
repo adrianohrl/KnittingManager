@@ -6,6 +6,7 @@
 package kmm.paycheck.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObjectRelated;
 import kmm.dao.DAO;
 import kmm.paycheck.DailyEstablishedHour;
 
@@ -13,10 +14,18 @@ import kmm.paycheck.DailyEstablishedHour;
  *
  * @author adrianohrl
  */
-public class DailyEstablishedHourDAO extends DAO<DailyEstablishedHour, Long> {
+public class DailyEstablishedHourDAO extends DAO<DailyEstablishedHour, Long> implements ComplexObjectRelated<DailyEstablishedHour> {
 
     public DailyEstablishedHourDAO(EntityManager em) {
         super(em);
+    }
+
+    @Override
+    public void creatingFullfilled(DailyEstablishedHour dailyEstablishedHour) {
+        if (dailyEstablishedHour == null) {
+            return;
+        }
+        em.persist(dailyEstablishedHour);
     }
     
 }

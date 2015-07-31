@@ -49,7 +49,7 @@ public class UserInsertion {
         
         EntityManager em = DataSource.createEntityManager();
         PersonDAO pDAO = new PersonDAO(em);
-        pDAO.create(p);
+        pDAO.createFullfilled(p);
         em.close();
         
     }

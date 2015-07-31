@@ -6,13 +6,14 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObjectRelated;
 import kmm.documents.RG;
 
 /**
  *
  * @author adrianohrl
  */
-public class RGDAO extends IndividualDocumentDAO<RG> {
+public class RGDAO extends IndividualDocumentDAO<RG> implements ComplexObjectRelated<RG> {
 
     public RGDAO(EntityManager em) {
         super(em);

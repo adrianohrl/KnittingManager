@@ -7,16 +7,25 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.CompanyType;
+import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class CompanyTypeDAO extends NameableObjectDAO<CompanyType> {
+public class CompanyTypeDAO extends NameableObjectDAO<CompanyType> implements ComplexObjectRelated<CompanyType> {
 
     public CompanyTypeDAO(EntityManager em) {
         super(em);
+    }
+
+    @Override
+    public void creatingFullfilled(CompanyType companyType) {
+        if (companyType == null) {
+            return;
+        }
+        em.persist(companyType);
     }
     
 }

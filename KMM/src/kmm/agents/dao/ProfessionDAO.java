@@ -7,16 +7,25 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.Profession;
+import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class ProfessionDAO extends NameableObjectDAO<Profession> {
+public class ProfessionDAO extends NameableObjectDAO<Profession> implements ComplexObjectRelated<Profession> {
 
     public ProfessionDAO(EntityManager em) {
         super(em);
+    }
+
+    @Override
+    public void creatingFullfilled(Profession profession) {
+        if (profession == null) {
+            return;
+        }
+        em.persist(profession);
     }
     
 }

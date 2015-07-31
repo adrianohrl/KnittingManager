@@ -6,13 +6,14 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObjectRelated;
 import kmm.documents.Passport;
 
 /**
  *
  * @author adrianohrl
  */
-public class PassportDAO extends IndividualDocumentDAO<Passport> {
+public class PassportDAO extends IndividualDocumentDAO<Passport> implements ComplexObjectRelated<Passport> {
 
     public PassportDAO(EntityManager em) {
         super(em);

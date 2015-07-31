@@ -7,16 +7,25 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.Skill;
+import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class SkillDAO extends NameableObjectDAO<Skill> {
+public class SkillDAO extends NameableObjectDAO<Skill> implements ComplexObjectRelated<Skill> {
     
     public SkillDAO(EntityManager em) {
         super(em);
+    }
+
+    @Override
+    public void creatingFullfilled(Skill skill) {
+        if (skill == null) {
+            return;
+        }
+        em.persist(skill);
     }
     
 }

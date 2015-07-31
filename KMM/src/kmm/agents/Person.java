@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
+import kmm.documents.Passport;
 import kmm.documents.RG;
 import kmm.documents.TituloDeEleitor;
 
@@ -50,6 +51,8 @@ public class Person implements Serializable {
     private TituloDeEleitor tituloDeEleitor;
     @OneToOne
     private CarteiraDeReservista reservista;
+    @OneToOne
+    private Passport passport;
 
     public Person() {
     }
@@ -101,7 +104,7 @@ public class Person implements Serializable {
         this.cpf = cpf;
     }
 
-    public Person(String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
+    public Person(String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista, Passport passport) {
         this.name = name;
         this.dob = dob;
         this.phone = phone;
@@ -117,6 +120,7 @@ public class Person implements Serializable {
         this.cnh = cnh;
         this.tituloDeEleitor = tituloDeEleitor;
         this.reservista = reservista;
+        this.passport = passport;
     }
 
     public String getName() {
@@ -237,6 +241,14 @@ public class Person implements Serializable {
 
     public void setReservista(CarteiraDeReservista reservista) {
         this.reservista = reservista;
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
     
 }

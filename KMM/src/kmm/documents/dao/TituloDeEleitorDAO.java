@@ -6,13 +6,14 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObjectRelated;
 import kmm.documents.TituloDeEleitor;
 
 /**
  *
  * @author adrianohrl
  */
-public class TituloDeEleitorDAO extends IndividualDocumentDAO<TituloDeEleitor> {
+public class TituloDeEleitorDAO extends IndividualDocumentDAO<TituloDeEleitor> implements ComplexObjectRelated<TituloDeEleitor> {
 
     public TituloDeEleitorDAO(EntityManager em) {
         super(em);

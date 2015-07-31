@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import kmm.documents.CNH;
 import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
+import kmm.documents.Passport;
 import kmm.documents.RG;
 import kmm.documents.TituloDeEleitor;
 
@@ -37,8 +38,8 @@ public class Dependent extends Person implements Serializable {
         this.kinship = kinship;
     }
 
-    public Dependent(Employee employee, Kinship kinship, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
-        super(name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
+    public Dependent(Employee employee, Kinship kinship, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista, Passport passport) {
+        super(name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista, passport);
         this.employee = employee;
         this.kinship = kinship;
     }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -20,6 +19,7 @@ import kmm.documents.CPF;
 import kmm.documents.CarteiraDeReservista;
 import kmm.documents.CarteiraDeTrabalho;
 import kmm.documents.PIS;
+import kmm.documents.Passport;
 import kmm.documents.RG;
 import kmm.documents.TituloDeEleitor;
 import kmm.paycheck.Salary;
@@ -94,8 +94,8 @@ public class Employee extends PersonWithSkills implements Serializable {
         this.schedule = schedule;
     }
 
-    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista) {
-        super(skills, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista);
+    public Employee(int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista, Passport passport) {
+        super(skills, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista, passport);
         this.bookNumber = bookNumber;
         this.pageNumber = pageNumber;
         this.hiringDate = hiringDate;

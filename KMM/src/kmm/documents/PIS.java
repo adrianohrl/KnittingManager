@@ -21,6 +21,9 @@ public class PIS extends IndividualDocument {
     @OneToOne
     private Bank bank;
 
+    public PIS() {
+    }
+
     public PIS(Bank bank, Person individual, String number) {
         super(individual, number);
         this.bank = bank;
@@ -29,9 +32,6 @@ public class PIS extends IndividualDocument {
     public PIS(Bank bank, Person individual, String number, Calendar emissionDate) {
         super(individual, number, emissionDate);
         this.bank = bank;
-    }
-
-    public PIS() {
     }
 
     public Bank getBank() {

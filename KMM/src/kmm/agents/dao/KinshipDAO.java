@@ -6,7 +6,7 @@
 package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
-import kmm.agents.CivilStatus;
+import kmm.agents.Kinship;
 import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
@@ -14,18 +14,18 @@ import kmm.dao.NameableObjectDAO;
  *
  * @author adrianohrl
  */
-public class CivilStatusDAO extends NameableObjectDAO<CivilStatus> implements ComplexObjectRelated<CivilStatus> {
+public class KinshipDAO extends NameableObjectDAO<Kinship> implements ComplexObjectRelated<Kinship> {
 
-    public CivilStatusDAO(EntityManager em) {
+    public KinshipDAO(EntityManager em) {
         super(em);
     }
 
     @Override
-    public void creatingFullfilled(CivilStatus civilStatus) {
-        if (civilStatus == null) {
+    public void creatingFullfilled(Kinship kinship) {
+        if (kinship == null) {
             return;
         }
-        em.persist(civilStatus);
+        em.persist(kinship);
     }
     
 }

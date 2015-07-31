@@ -6,13 +6,15 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObject;
+import kmm.dao.ComplexObjectRelated;
 import kmm.documents.CarteiraDeReservista;
 
 /**
  *
  * @author adrianohrl
  */
-public class CarteiraDeReservistaDAO extends IndividualDocumentDAO<CarteiraDeReservista> {
+public class CarteiraDeReservistaDAO extends IndividualDocumentDAO<CarteiraDeReservista> implements ComplexObject<CarteiraDeReservista>, ComplexObjectRelated<CarteiraDeReservista> {
 
     public CarteiraDeReservistaDAO(EntityManager em) {
         super(em);

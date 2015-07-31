@@ -6,6 +6,8 @@
 package kmm.paycheck.dao;
 
 import javax.persistence.EntityManager;
+import kmm.dao.ComplexObject;
+import kmm.dao.ComplexObjectRelated;
 import kmm.dao.DescriptableObjectDAO;
 import kmm.paycheck.DayType;
 
@@ -13,10 +15,34 @@ import kmm.paycheck.DayType;
  *
  * @author adrianohrl
  */
-public class DayTypeDAO extends DescriptableObjectDAO<DayType> {
+public class DayTypeDAO extends DescriptableObjectDAO<DayType> implements ComplexObject<DayType>, ComplexObjectRelated<DayType> {
 
     public DayTypeDAO(EntityManager em) {
         super(em);
+    }
+
+    @Override
+    public void createFullfilled(DayType type) {
+        if (type == null) { 
+            return;
+        }
+        em.getTransaction().begin();
+        em.persist(type);
+        ExtraDAO extraDAO = new ExtraDAO(em);
+        extraDAO.creatingFullfilled(type.getExtra());
+        em.merge(type);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void creatingFullfilled(DayType type) {
+        if (type == null) {
+            return;
+        }
+        em.persist(type);
+        ExtraDAO extraDAO = new ExtraDAO(em);
+        extraDAO.creatingFullfilled(type.getExtra());
+        em.merge(type);
     }
     
 }
