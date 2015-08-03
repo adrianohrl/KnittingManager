@@ -16,7 +16,7 @@ import kmm.documents.Passport;
 public class PassportDAO extends IndividualDocumentDAO<Passport> implements ComplexObjectRelated<Passport> {
 
     public PassportDAO(EntityManager em) {
-        super(em);
+        super(em, Passport.class);
     }
     
 }

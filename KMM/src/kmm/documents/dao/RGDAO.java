@@ -16,7 +16,7 @@ import kmm.documents.RG;
 public class RGDAO extends IndividualDocumentDAO<RG> implements ComplexObjectRelated<RG> {
 
     public RGDAO(EntityManager em) {
-        super(em);
+        super(em, RG.class);
     }
     
 }

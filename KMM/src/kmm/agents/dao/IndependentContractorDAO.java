@@ -6,6 +6,7 @@
 package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.agents.IndependentContractor;
 import kmm.agents.PersonWithSkills;
 
 /**
@@ -15,7 +16,7 @@ import kmm.agents.PersonWithSkills;
 public class IndependentContractorDAO extends PersonWithSkillsDAO<PersonWithSkills> {
 
     public IndependentContractorDAO(EntityManager em) {
-        super(em);
+        super(em, IndependentContractor.class);
     }
     
 }

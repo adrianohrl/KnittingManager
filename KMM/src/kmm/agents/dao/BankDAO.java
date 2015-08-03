@@ -18,7 +18,7 @@ import kmm.dao.DAO;
 public class BankDAO extends DAO<Bank, String> implements ComplexObject<Bank>, ComplexObjectRelated<Bank> {
 
     public BankDAO(EntityManager em) {
-        super(em);
+        super(em, Bank.class);
     }
 
     @Override
@@ -27,19 +27,40 @@ public class BankDAO extends DAO<Bank, String> implements ComplexObject<Bank>, C
             return;
         }
         em.getTransaction().begin();
-        em.persist(bank);
-        AddressDAO addressDAO = new AddressDAO(em);
-        addressDAO.creatingFullfilled(bank.getAddress());
-        em.merge(bank);
+        this.persist(bank);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(Bank bank) {
+    public void persist(Bank bank) {
+        this.persist(bank, bank);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, Bank bank) {
+        if (beingCreated.equals(bank)) {
+            em.merge(bank);
+            return;
+        }
+        this.persist(beingCreated, bank);
+    }
+
+    @Override
+    public void persist(Object beingCreated, Bank bank) {
         if (bank == null) {
             return;
         }
-        em.persist(bank);
+        if (!isRegistered(bank)) {
+            em.persist(bank);
+        }
+        AddressDAO addressDAO = new AddressDAO(em);
+        addressDAO.creatingFullfilled(beingCreated, bank.getAddress());
+        em.merge(bank);
     }
-    
+
+    @Override
+    public boolean isRegistered(Bank bank) {
+        return super.find(bank.getName()) != null;
+    }
+
 }

@@ -19,7 +19,7 @@ import kmm.agents.Person;
  */
 @Entity
 public class CNH extends IndividualDocument implements Serializable {
-    
+
     @OneToOne
     private RG rg;
     @OneToOne
@@ -135,5 +135,5 @@ public class CNH extends IndividualDocument implements Serializable {
     public void setObservations(String observations) {
         this.observations = observations;
     }
-    
+
 }

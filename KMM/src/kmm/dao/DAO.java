@@ -5,8 +5,6 @@
  */
 package kmm.dao;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.TypeVariable;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -20,15 +18,10 @@ public abstract class DAO<E, K> {
     
     protected EntityManager em;
     private final Class<E> clazz;
-
-    protected DAO(EntityManager em) {
-        Object aux = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        if (aux instanceof Class) {
-            this.clazz = (Class<E>) aux;
-        } else {
-            this.clazz = (Class<E>) ((TypeVariable) aux).getGenericDeclaration();
-        }
+    
+    protected DAO(EntityManager em, Class clazz) {
         this.em = em;
+        this.clazz = (Class<E>) clazz;
     }
 
     public void create(E entity) {
@@ -61,4 +54,7 @@ public abstract class DAO<E, K> {
     public long getCount() {
         return (long) em.createQuery("SELECT COUNT(*) FROM " + clazz.getSimpleName()).getSingleResult();
     }
+    
+    public abstract boolean isRegistered(E entity);
+    
 }

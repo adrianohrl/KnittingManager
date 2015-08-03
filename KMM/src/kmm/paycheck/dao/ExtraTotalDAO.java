@@ -18,31 +18,49 @@ import kmm.paycheck.ExtraTotal;
 public class ExtraTotalDAO extends DAO<ExtraTotal, Long> implements ComplexObject<ExtraTotal>, ComplexObjectRelated<ExtraTotal> {
 
     public ExtraTotalDAO(EntityManager em) {
-        super(em);
+        super(em, ExtraTotal.class);
     }
 
     @Override
     public void createFullfilled(ExtraTotal extraTotal) {
-        if (extraTotal == null) { 
+        if (extraTotal == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(extraTotal);
-        ExtraDAO extraDAO = new ExtraDAO(em);
-        extraDAO.creatingFullfilled(extraTotal.getExtra());
-        em.merge(extraTotal);
+        this.persist(extraTotal);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(ExtraTotal extraTotal) {
+    public void persist(ExtraTotal extraTotal) {
+        this.persist(extraTotal, extraTotal);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, ExtraTotal extraTotal) {
+        if (beingCreated.equals(extraTotal)) {
+            em.merge(extraTotal);
+            return;
+        }
+        this.persist(beingCreated, extraTotal);
+    }
+
+    @Override
+    public void persist(Object beingCreated, ExtraTotal extraTotal) {
         if (extraTotal == null) {
             return;
         }
-        em.persist(extraTotal);
+        if (!isRegistered(extraTotal)) {
+            em.persist(extraTotal);
+        }
         ExtraDAO extraDAO = new ExtraDAO(em);
-        extraDAO.creatingFullfilled(extraTotal.getExtra());
+        extraDAO.creatingFullfilled(beingCreated, extraTotal.getExtra());
         em.merge(extraTotal);
     }
-    
+
+    @Override
+    public boolean isRegistered(ExtraTotal extraTotal) {
+        return super.find(extraTotal.getCode()) != null;
+    }
+
 }

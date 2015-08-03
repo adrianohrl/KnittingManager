@@ -20,39 +20,53 @@ import kmm.paycheck.Schedule;
 public class ScheduleDAO extends DAO<Schedule, Long> implements ComplexObject<Schedule>, ComplexObjectRelated<Schedule> {
 
     public ScheduleDAO(EntityManager em) {
-        super(em);
+        super(em, Schedule.class);
     }
 
     @Override
     public void createFullfilled(Schedule schedule) {
-        if (schedule == null) { 
+        if (schedule == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(schedule);
-        EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(schedule.getEmployee());
-        DailyEstablishedHourDAO dailyEstablishedHourDAO = new DailyEstablishedHourDAO(em);
-        for (DailyEstablishedHour dailyEstablishedHour : schedule.getBankOfHours()) {
-            dailyEstablishedHourDAO.creatingFullfilled(dailyEstablishedHour);
-        }
-        em.merge(schedule);
+        this.persist(schedule);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(Schedule schedule) {
+    public void persist(Schedule schedule) {
+        this.persist(schedule, schedule);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, Schedule schedule) {
+        if (beingCreated.equals(schedule)) {
+            em.merge(schedule);
+            return;
+        }
+        this.persist(beingCreated, schedule);
+    }
+
+    @Override
+    public void persist(Object beingCreated, Schedule schedule) {
         if (schedule == null) {
             return;
         }
-        em.persist(schedule);
+        if (!isRegistered(schedule)) {
+            em.persist(schedule);
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(schedule.getEmployee());
+        employeeDAO.creatingFullfilled(beingCreated, schedule.getEmployee());
         DailyEstablishedHourDAO dailyEstablishedHourDAO = new DailyEstablishedHourDAO(em);
         for (DailyEstablishedHour dailyEstablishedHour : schedule.getBankOfHours()) {
-            dailyEstablishedHourDAO.creatingFullfilled(dailyEstablishedHour);
+            dailyEstablishedHourDAO.creatingFullfilled(beingCreated, dailyEstablishedHour);
         }
         em.merge(schedule);
     }
-    
+
+    @Override
+    public boolean isRegistered(Schedule schedule) {
+        return super.find(schedule.getCode()) != null;
+    }
+
 }

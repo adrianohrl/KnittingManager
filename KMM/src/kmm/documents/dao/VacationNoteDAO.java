@@ -19,31 +19,49 @@ import kmm.documents.VacationNote;
 public class VacationNoteDAO extends DAO<VacationNote, Long> implements ComplexObject<VacationNote>, ComplexObjectRelated<VacationNote> {
 
     public VacationNoteDAO(EntityManager em) {
-        super(em);
+        super(em, VacationNote.class);
     }
 
     @Override
     public void createFullfilled(VacationNote vacationNote) {
-        if (vacationNote == null) { 
+        if (vacationNote == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(vacationNote);
-        EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(vacationNote.getResponsible());
-        em.merge(vacationNote);
+        this.persist(vacationNote);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(VacationNote vacationNote) {
+    public void persist(VacationNote vacationNote) {
+        this.persist(vacationNote, vacationNote);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, VacationNote vacationNote) {
+        if (beingCreated.equals(vacationNote)) {
+            em.merge(vacationNote);
+            return;
+        }
+        this.persist(beingCreated, vacationNote);
+    }
+
+    @Override
+    public void persist(Object beingCreated, VacationNote vacationNote) {
         if (vacationNote == null) {
             return;
         }
-        em.persist(vacationNote);
+        if (!isRegistered(vacationNote)) {
+            em.persist(vacationNote);
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(vacationNote.getResponsible());
+        employeeDAO.creatingFullfilled(beingCreated, vacationNote.getResponsible());
         em.merge(vacationNote);
     }
-    
+
+    @Override
+    public boolean isRegistered(VacationNote vacationNote) {
+        return super.find(vacationNote.getCode()) != null;
+    }
+
 }

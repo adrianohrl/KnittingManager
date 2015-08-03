@@ -6,34 +6,29 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
-import kmm.dao.ComplexObject;
-import kmm.dao.ComplexObjectRelated;
 import kmm.documents.CNH;
 
 /**
  *
  * @author adrianohrl
  */
-public class CNHDAO extends IndividualDocumentDAO<CNH> implements ComplexObject<CNH>, ComplexObjectRelated<CNH> {
+public class CNHDAO extends IndividualDocumentDAO<CNH> {
 
     public CNHDAO(EntityManager em) {
-        super(em);
+        super(em, CNH.class);
     }
 
     @Override
-    public void createFullfilled(CNH cnh) {
-        this.creatingFullfilled(cnh);
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(CNH cnh) {
-        super.createFullfilled(cnh);
+    public void persist(Object beingCreated, CNH cnh) {
+        if (cnh == null) {
+            return;
+        }
+        super.persist(beingCreated, cnh);
         RGDAO rgDAO = new RGDAO(em);
-        rgDAO.creatingFullfilled(cnh.getRg());
+        rgDAO.creatingFullfilled(beingCreated, cnh.getRg());
         CPFDAO cpfDAO = new CPFDAO(em);
-        cpfDAO.creatingFullfilled(cnh.getCpf());
+        cpfDAO.creatingFullfilled(beingCreated, cnh.getCpf());
         em.merge(cnh);
     }
-    
+
 }

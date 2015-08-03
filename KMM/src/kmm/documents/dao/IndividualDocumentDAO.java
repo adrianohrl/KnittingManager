@@ -19,7 +19,11 @@ import kmm.documents.IndividualDocument;
 public abstract class IndividualDocumentDAO<ID extends IndividualDocument> extends DocumentDAO<ID> implements ComplexObject<ID>, ComplexObjectRelated<ID> {
 
     public IndividualDocumentDAO(EntityManager em) {
-        super(em);
+        super(em, IndividualDocument.class);
+    }
+
+    protected IndividualDocumentDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
     }
 
     @Override
@@ -28,22 +32,35 @@ public abstract class IndividualDocumentDAO<ID extends IndividualDocument> exten
             return;
         }
         em.getTransaction().begin();
-        em.persist(individualDocument);
-        PersonDAO personDAO = new PersonDAO(em);
-        personDAO.creatingFullfilled(individualDocument.getIndividual());
-        em.merge(individualDocument);
-        em.getTransaction().commit();        
+        this.persist(individualDocument);
+        em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(ID individualDocument) {
-        if (individualDocument == null) { 
+    public void persist(ID individualDocument) {
+        this.persist(individualDocument, individualDocument);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, ID individualDocument) {
+        if (beingCreated.equals(individualDocument)) {
+            em.merge(individualDocument);
             return;
         }
-        em.persist(individualDocument);
+        this.persist(beingCreated, individualDocument);
+    }
+
+    @Override
+    public void persist(Object beingCreated, ID individualDocument) {
+        if (individualDocument == null) {
+            return;
+        }
+        if (!isRegistered(individualDocument)) {
+            em.persist(individualDocument);
+        }
         PersonDAO personDAO = new PersonDAO(em);
-        personDAO.creatingFullfilled(individualDocument.getIndividual());
+        personDAO.creatingFullfilled(beingCreated, individualDocument.getIndividual());
         em.merge(individualDocument);
     }
-    
+
 }

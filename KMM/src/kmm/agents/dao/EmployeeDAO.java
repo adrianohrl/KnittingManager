@@ -23,40 +23,41 @@ import kmm.paycheck.dao.ScheduleDAO;
 public class EmployeeDAO<E extends Employee> extends PersonWithSkillsDAO<E> implements ComplexObjectRelated<E> {
 
     public EmployeeDAO(EntityManager em) {
-        super(em);
+        super(em, Employee.class);
+    }
+
+    protected EmployeeDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
     }
 
     @Override
-    public void createFullfilled(E employee) {
-        this.creatingFullfilled(employee);
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(E employee) {
-        super.creatingFullfilled(employee);
+    public void persist(Object beingCreated, E employee) {
+        if (employee == null) {
+            return;
+        }
+        super.persist(beingCreated, employee);
         ProfessionDAO professionDAO = new ProfessionDAO(em);
-        professionDAO.creatingFullfilled(employee.getProfession());
+        professionDAO.creatingFullfilled(beingCreated, employee.getProfession());
         WorkingPeriodDAO periodDAO = new WorkingPeriodDAO(em);
-        periodDAO.creatingFullfilled(employee.getPeriod());
+        periodDAO.creatingFullfilled(beingCreated, employee.getPeriod());
         PeriodicalExamDAO examDAO = new PeriodicalExamDAO(em);
         for (PeriodicalExam exam : employee.getExams()) {
-            examDAO.creatingFullfilled(exam);
+            examDAO.creatingFullfilled(beingCreated, exam);
         }
-        examDAO.creatingFullfilled(employee.getLastExam());
+        examDAO.creatingFullfilled(beingCreated, employee.getLastExam());
         CarteiraDeTrabalhoDAO carteiraDeTrabalhoDAO = new CarteiraDeTrabalhoDAO(em);
-        carteiraDeTrabalhoDAO.creatingFullfilled(employee.getCarteiraDeTrabalho());
+        carteiraDeTrabalhoDAO.creatingFullfilled(beingCreated, employee.getCarteiraDeTrabalho());
         PISDAO pisDAO = new PISDAO(em);
-        pisDAO.creatingFullfilled(employee.getPis());
+        pisDAO.creatingFullfilled(beingCreated, employee.getPis());
         DependentDAO dependentDAO = new DependentDAO(em);
-        for (Dependent dependent: employee.getDependents()) {
-            dependentDAO.creatingFullfilled(dependent);
+        for (Dependent dependent : employee.getDependents()) {
+            dependentDAO.creatingFullfilled(beingCreated, dependent);
         }
         SalaryDAO salaryDAO = new SalaryDAO(em);
-        salaryDAO.creatingFullfilled(employee.getSalary());
+        salaryDAO.creatingFullfilled(beingCreated, employee.getSalary());
         ScheduleDAO scheduleDAO = new ScheduleDAO(em);
-        scheduleDAO.creatingFullfilled(employee.getSchedule());
+        scheduleDAO.creatingFullfilled(beingCreated, employee.getSchedule());
         em.merge(employee);
     }
-    
+
 }

@@ -18,31 +18,33 @@ import kmm.paycheck.Extra;
 public class ExtraDAO extends NameableObjectDAO<Extra> implements ComplexObject<Extra>, ComplexObjectRelated<Extra> {
 
     public ExtraDAO(EntityManager em) {
-        super(em);
+        super(em, Extra.class);
     }
 
     @Override
     public void createFullfilled(Extra extra) {
-        if (extra == null) { 
+        if (extra == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(extra);
-        DayTypeDAO typeDAO = new DayTypeDAO(em);
-        typeDAO.creatingFullfilled(extra.getDayType());
-        em.merge(extra);
+        this.persist(extra);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(Extra extra) {
+    public void persist(Extra extra) {
+        this.persist(extra, extra);
+    }
+
+    @Override
+    public void persist(Object beingCreated, Extra extra) {
         if (extra == null) {
             return;
         }
-        em.persist(extra);
+        super.persist(beingCreated, extra);
         DayTypeDAO typeDAO = new DayTypeDAO(em);
-        typeDAO.creatingFullfilled(extra.getDayType());
+        typeDAO.creatingFullfilled(beingCreated, extra.getDayType());
         em.merge(extra);
     }
-    
+
 }

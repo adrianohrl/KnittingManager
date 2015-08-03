@@ -25,7 +25,7 @@ public class VacationNote implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int code;
+    private long code;
     @Temporal(TemporalType.DATE)
     private Calendar startDate;
     @Temporal(TemporalType.DATE)
@@ -45,11 +45,11 @@ public class VacationNote implements Serializable {
         this.responsible = responsible;
     }
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

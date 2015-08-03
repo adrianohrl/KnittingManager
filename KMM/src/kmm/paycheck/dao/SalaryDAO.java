@@ -20,39 +20,53 @@ import kmm.paycheck.Salary;
 public class SalaryDAO extends DAO<Salary, Long> implements ComplexObject<Salary>, ComplexObjectRelated<Salary> {
 
     public SalaryDAO(EntityManager em) {
-        super(em);
+        super(em, Salary.class);
     }
 
     @Override
     public void createFullfilled(Salary salary) {
-        if (salary == null) { 
+        if (salary == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(salary);
-        EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(salary.getEmployee());
-        ExtraDAO extraDAO = new ExtraDAO(em);
-        for (Extra extra : salary.getExtras()) {
-            extraDAO.creatingFullfilled(extra);
-        }
-        em.merge(salary);
+        this.persist(salary);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(Salary salary) {
+    public void persist(Salary salary) {
+        this.persist(salary, salary);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, Salary salary) {
+        if (beingCreated.equals(salary)) {
+            em.merge(salary);
+            return;
+        }
+        this.persist(beingCreated, salary);
+    }
+
+    @Override
+    public void persist(Object beingCreated, Salary salary) {
         if (salary == null) {
             return;
         }
-        em.persist(salary);
+        if (!isRegistered(salary)) {
+            em.persist(salary);
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(salary.getEmployee());
+        employeeDAO.creatingFullfilled(beingCreated, salary.getEmployee());
         ExtraDAO extraDAO = new ExtraDAO(em);
         for (Extra extra : salary.getExtras()) {
-            extraDAO.creatingFullfilled(extra);
+            extraDAO.creatingFullfilled(beingCreated, extra);
         }
         em.merge(salary);
     }
-    
+
+    @Override
+    public boolean isRegistered(Salary salary) {
+        return super.find(salary.getCode()) != null;
+    }
+
 }

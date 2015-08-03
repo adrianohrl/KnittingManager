@@ -73,6 +73,7 @@ public class Person implements Serializable {
         this.cnh = person.cnh;
         this.tituloDeEleitor = person.tituloDeEleitor;
         this.reservista = person.reservista;
+        this.passport = person.passport;
     }
 
     public Person(String name, String phone, String email) {
@@ -121,6 +122,20 @@ public class Person implements Serializable {
         this.tituloDeEleitor = tituloDeEleitor;
         this.reservista = reservista;
         this.passport = passport;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof Person && this.equals((Person) obj);
+    }
+    
+    public boolean equals(Person person) {
+        return person != null && name.equals(person.name);
+    }
+    
+    @Override
+    public String toString() {
+        return name;
     }
 
     public String getName() {

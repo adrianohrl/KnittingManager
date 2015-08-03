@@ -7,32 +7,27 @@ package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.dao.BankDAO;
-import kmm.dao.ComplexObject;
-import kmm.dao.ComplexObjectRelated;
 import kmm.documents.PIS;
 
 /**
  *
  * @author adrianohrl
  */
-public class PISDAO extends IndividualDocumentDAO<PIS> implements ComplexObject<PIS>, ComplexObjectRelated<PIS> {
+public class PISDAO extends IndividualDocumentDAO<PIS> {
 
     public PISDAO(EntityManager em) {
-        super(em);
+        super(em, PIS.class);
     }
 
     @Override
-    public void createFullfilled(PIS pis) {
-        this.creatingFullfilled(pis);
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(PIS pis) {
-        super.creatingFullfilled(pis);
+    public void persist(Object beingCreated, PIS pis) {
+        if (pis == null) {
+            return;
+        }
+        super.persist(beingCreated, pis);
         BankDAO bankDAO = new BankDAO(em);
-        bankDAO.creatingFullfilled(pis.getBank());
+        bankDAO.creatingFullfilled(beingCreated, pis.getBank());
         em.merge(pis);
     }
-    
+
 }

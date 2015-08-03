@@ -16,23 +16,20 @@ import kmm.dao.ComplexObjectRelated;
 public class DependentDAO extends PersonDAO<Dependent> implements ComplexObjectRelated<Dependent> {
 
     public DependentDAO(EntityManager em) {
-        super(em);
+        super(em, Dependent.class);
     }
 
     @Override
-    public void createFullfilled(Dependent dependent) {
-        this.creatingFullfilled(dependent); 
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(Dependent dependent) {
-        super.creatingFullfilled(dependent); 
+    public void persist(Object beingCreated, Dependent dependent) {
+        if (dependent == null) {
+            return;
+        }
+        super.persist(beingCreated, dependent);
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(dependent.getEmployee());
+        employeeDAO.creatingFullfilled(beingCreated, dependent.getEmployee());
         KinshipDAO kinshipDAO = new KinshipDAO(em);
-        kinshipDAO.creatingFullfilled(dependent.getKinship());
+        kinshipDAO.creatingFullfilled(beingCreated, dependent.getKinship());
         em.merge(dependent);
     }
-    
+
 }

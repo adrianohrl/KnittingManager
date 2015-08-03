@@ -7,16 +7,9 @@ package kmm.agents;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import kmm.documents.CNH;
-import kmm.documents.CPF;
-import kmm.documents.CarteiraDeReservista;
-import kmm.documents.Passport;
-import kmm.documents.RG;
-import kmm.documents.TituloDeEleitor;
 
 /**
  *
@@ -36,13 +29,8 @@ public abstract class PersonWithSkills extends Person implements Serializable {
         this.skills = personWithSkills.skills;
     }
 
-    public PersonWithSkills(List<Skill> skills, String name, String phone, Address address, RG rg, CPF cpf) {
-        super(name, phone, address, rg, cpf);
-        this.skills = skills;
-    }
-
-    public PersonWithSkills(List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista, Passport passport) {
-        super(name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista, passport);
+    public PersonWithSkills(List<Skill> skills, Person person) {
+        super(person);
         this.skills = skills;
     }
 

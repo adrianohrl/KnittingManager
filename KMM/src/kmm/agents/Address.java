@@ -21,15 +21,15 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
-    private String street;
-    private String identifier;
-    private String district;
-    private String zip;
-    private String city;
-    private String county;
-    private String stateName;
-    private String country;
-    private String complement;
+    private String street = "";
+    private String identifier = "";
+    private String district = "";
+    private String zip = "";
+    private String city = "";
+    private String county = "";
+    private String stateName = "";
+    private String country = "";
+    private String complement = "";
 
     public Address() {
     }
@@ -48,6 +48,18 @@ public class Address implements Serializable {
     public Address(String street, String identifier, String district, String zip, String city, String county, String state, String country, String complement) {
         this(street, identifier, district, zip, city, state, country, complement);
         this.county = county;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof Address && this.equals((Address) obj);
+    }
+    
+    public boolean equals(Address address) {
+        return address != null && street.equalsIgnoreCase(address.street) && identifier.equalsIgnoreCase(address.identifier) &&
+                district.equalsIgnoreCase(address.district) && complement.equalsIgnoreCase(address.complement) && 
+                zip.equalsIgnoreCase(address.zip) && city.equalsIgnoreCase(address.city) && stateName.equalsIgnoreCase(address.stateName) &&
+                country.equalsIgnoreCase(address.country) && county.equalsIgnoreCase(address.county);
     }
 
     public long getCode() {

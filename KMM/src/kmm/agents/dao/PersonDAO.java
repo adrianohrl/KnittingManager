@@ -25,63 +25,69 @@ import kmm.documents.dao.TituloDeEleitorDAO;
 public class PersonDAO<P extends Person> extends DAO<P, String> implements ComplexObject<P>, ComplexObjectRelated<P> {
 
     public PersonDAO(EntityManager em) {
-        super(em);
+        super(em, Person.class);
     }
-    
+
+    protected PersonDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
+    }
+
     @Override
     public void createFullfilled(P person) {
         if (person == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(person);
-        GenderDAO genderDAO = new GenderDAO(em);
-        genderDAO.creatingFullfilled(person.getGender());
-        CivilStatusDAO civilStatusDAO = new CivilStatusDAO(em);
-        civilStatusDAO.creatingFullfilled(person.getCivilStatus());
-        AddressDAO addressDAO = new AddressDAO(em);
-        addressDAO.creatingFullfilled(person.getAddress());
-        RGDAO rgDAO = new RGDAO(em);
-        rgDAO.creatingFullfilled(person.getRg());
-        CPFDAO cpfDAO = new CPFDAO(em);
-        cpfDAO.creatingFullfilled(person.getCpf());
-        CNHDAO cnhDAO = new CNHDAO(em);
-        cnhDAO.creatingFullfilled(person.getCnh());
-        TituloDeEleitorDAO tituloDeEleitorDAO = new TituloDeEleitorDAO(em);
-        tituloDeEleitorDAO.creatingFullfilled(person.getTituloDeEleitor());
-        CarteiraDeReservistaDAO reservista = new CarteiraDeReservistaDAO(em);
-        reservista.creatingFullfilled(person.getReservista());
-        PassportDAO passportDAO = new PassportDAO(em);
-        passportDAO.creatingFullfilled(person.getPassport());
-        em.merge(person);
+        this.persist(person);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(P person) {
+    public void persist(P person) {
+        this.persist(person, person);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, P person) {
+        if (beingCreated.equals(person)) {
+            em.merge(person);
+            return;
+        }
+        this.persist(beingCreated, person);
+    }
+
+    @Override
+    public void persist(Object beingCreated, P person) {
         if (person == null) {
             return;
         }
-        em.persist(person);
+        if (!isRegistered(person)) {
+            em.persist(person);
+        }
         GenderDAO genderDAO = new GenderDAO(em);
-        genderDAO.creatingFullfilled(person.getGender());
+        genderDAO.creatingFullfilled(beingCreated, person.getGender());
         CivilStatusDAO civilStatusDAO = new CivilStatusDAO(em);
-        civilStatusDAO.creatingFullfilled(person.getCivilStatus());
+        civilStatusDAO.creatingFullfilled(beingCreated, person.getCivilStatus());
         AddressDAO addressDAO = new AddressDAO(em);
-        addressDAO.creatingFullfilled(person.getAddress());
+        addressDAO.creatingFullfilled(beingCreated, person.getAddress());
         RGDAO rgDAO = new RGDAO(em);
-        rgDAO.creatingFullfilled(person.getRg());
+        rgDAO.creatingFullfilled(beingCreated, person.getRg());
         CPFDAO cpfDAO = new CPFDAO(em);
-        cpfDAO.creatingFullfilled(person.getCpf());
+        cpfDAO.creatingFullfilled(beingCreated, person.getCpf());
         CNHDAO cnhDAO = new CNHDAO(em);
-        cnhDAO.creatingFullfilled(person.getCnh());
+        cnhDAO.creatingFullfilled(beingCreated, person.getCnh());
         TituloDeEleitorDAO tituloDeEleitorDAO = new TituloDeEleitorDAO(em);
-        tituloDeEleitorDAO.creatingFullfilled(person.getTituloDeEleitor());
+        tituloDeEleitorDAO.creatingFullfilled(beingCreated, person.getTituloDeEleitor());
         CarteiraDeReservistaDAO reservista = new CarteiraDeReservistaDAO(em);
-        reservista.creatingFullfilled(person.getReservista());
+        reservista.creatingFullfilled(beingCreated, person.getReservista());
         PassportDAO passportDAO = new PassportDAO(em);
-        passportDAO.creatingFullfilled(person.getPassport());
+        passportDAO.creatingFullfilled(beingCreated, person.getPassport());
         em.merge(person);
     }
-    
+
+    @Override
+    public boolean isRegistered(P person) {
+        return super.find(person.getName()) != null;
+    }
+
 }

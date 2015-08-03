@@ -8,9 +8,12 @@ package kmm.dao;
 /**
  *
  * @author adrianohrl
+ * @param <T>
  */
 public interface ComplexObjectRelated<T> {
     
-    public abstract void creatingFullfilled(T t);
+    public abstract void creatingFullfilled(Object beingCreated, T t);
+    
+    public abstract void persist(Object beingCreated, T t);
     
 }

@@ -17,15 +17,27 @@ import kmm.paycheck.DailyEstablishedHour;
 public class DailyEstablishedHourDAO extends DAO<DailyEstablishedHour, Long> implements ComplexObjectRelated<DailyEstablishedHour> {
 
     public DailyEstablishedHourDAO(EntityManager em) {
-        super(em);
+        super(em, DailyEstablishedHour.class);
     }
 
     @Override
-    public void creatingFullfilled(DailyEstablishedHour dailyEstablishedHour) {
+    public void creatingFullfilled(Object beingCreated, DailyEstablishedHour dailyEstablishedHour) {
+        this.persist(beingCreated, dailyEstablishedHour);
+    }
+
+    @Override
+    public void persist(Object beingCreated, DailyEstablishedHour dailyEstablishedHour) {
         if (dailyEstablishedHour == null) {
             return;
         }
-        em.persist(dailyEstablishedHour);
+        if (!isRegistered(dailyEstablishedHour)) {
+            em.persist(dailyEstablishedHour);
+        }
     }
-    
+
+    @Override
+    public boolean isRegistered(DailyEstablishedHour dailyEstablishedHour) {
+        return super.find(dailyEstablishedHour.getCode()) != null;
+    }
+
 }

@@ -7,25 +7,16 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.WorkingPeriod;
-import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class WorkingPeriodDAO extends NameableObjectDAO<WorkingPeriod> implements ComplexObjectRelated<WorkingPeriod> {
+public class WorkingPeriodDAO extends NameableObjectDAO<WorkingPeriod> {
 
     public WorkingPeriodDAO(EntityManager em) {
-        super(em);
-    }
-
-    @Override
-    public void creatingFullfilled(WorkingPeriod period) {
-        if (period == null) {
-            return;
-        }
-        em.persist(period);
+        super(em, WorkingPeriod.class);
     }
     
 }

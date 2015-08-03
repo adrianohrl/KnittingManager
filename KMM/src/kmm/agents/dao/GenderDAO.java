@@ -7,25 +7,16 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.Gender;
-import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class GenderDAO extends NameableObjectDAO<Gender> implements ComplexObjectRelated<Gender> {
+public class GenderDAO extends NameableObjectDAO<Gender> {
 
     public GenderDAO(EntityManager em) {
-        super(em);
-    }
-    
-    @Override
-    public void creatingFullfilled(Gender gender) {
-        if (gender == null) {
-            return;
-        }
-        em.persist(gender);
+        super(em, Gender.class);
     }
     
 }

@@ -7,25 +7,16 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.CivilStatus;
-import kmm.dao.ComplexObjectRelated;
 import kmm.dao.NameableObjectDAO;
 
 /**
  *
  * @author adrianohrl
  */
-public class CivilStatusDAO extends NameableObjectDAO<CivilStatus> implements ComplexObjectRelated<CivilStatus> {
+public class CivilStatusDAO extends NameableObjectDAO<CivilStatus> {
 
     public CivilStatusDAO(EntityManager em) {
-        super(em);
-    }
-
-    @Override
-    public void creatingFullfilled(CivilStatus civilStatus) {
-        if (civilStatus == null) {
-            return;
-        }
-        em.persist(civilStatus);
+        super(em, CivilStatus.class);
     }
     
 }

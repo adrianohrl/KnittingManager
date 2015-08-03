@@ -19,7 +19,11 @@ import kmm.dao.DAO;
 public class CompanyDAO<C extends Company> extends DAO<C, String> implements ComplexObject<C>, ComplexObjectRelated<C> {
 
     public CompanyDAO(EntityManager em) {
-        super(em);
+        super(em, Company.class);
+    }
+    
+    protected CompanyDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
     }
 
     @Override
@@ -28,26 +32,42 @@ public class CompanyDAO<C extends Company> extends DAO<C, String> implements Com
             return;
         }
         em.getTransaction().begin();
-        em.persist(company);
-        AddressDAO addressDAO = new AddressDAO(em);
-        addressDAO.creatingFullfilled(company.getAddress());
-        CompanyTypeDAO companyTypeDAO = new CompanyTypeDAO(em);
-        companyTypeDAO.creatingFullfilled(company.getType());
-        em.merge(company);
+        this.persist(company);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(C company) {
+    public void persist(C company) {
+        this.persist(company, company);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, C company) {
+        if (beingCreated.equals(company)) {
+            em.merge(company);
+            return;
+        }
+        this.persist(beingCreated, company);
+    }
+
+    @Override
+    public void persist(Object beingCreated, C company) {
         if (company == null) {
             return;
         }
-        em.persist(company);
+        if (!isRegistered(company)) {
+            em.persist(company);
+        }
         AddressDAO addressDAO = new AddressDAO(em);
-        addressDAO.creatingFullfilled(company.getAddress());
+        addressDAO.creatingFullfilled(beingCreated, company.getAddress());
         CompanyTypeDAO companyTypeDAO = new CompanyTypeDAO(em);
-        companyTypeDAO.creatingFullfilled(company.getType());
+        companyTypeDAO.creatingFullfilled(beingCreated, company.getType());
         em.merge(company);
     }
-    
+
+    @Override
+    public boolean isRegistered(C company) {
+        return super.find(company.getBusinessName()) != null;
+    }
+
 }

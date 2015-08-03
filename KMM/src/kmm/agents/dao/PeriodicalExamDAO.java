@@ -17,15 +17,27 @@ import kmm.dao.DAO;
 public class PeriodicalExamDAO extends DAO<PeriodicalExam, Long> implements ComplexObjectRelated<PeriodicalExam> {
 
     public PeriodicalExamDAO(EntityManager em) {
-        super(em);
+        super(em, PeriodicalExam.class);
     }
 
     @Override
-    public void creatingFullfilled(PeriodicalExam exam) {
+    public void creatingFullfilled(Object beingCreated, PeriodicalExam exam) {
+        this.persist(beingCreated, exam);
+    }
+
+    @Override
+    public void persist(Object beingCreated, PeriodicalExam exam) {
         if (exam == null) {
             return;
         }
-        em.persist(exam);
+        if (!isRegistered(exam)) {
+            em.persist(exam);
+        }
     }
-    
+
+    @Override
+    public boolean isRegistered(PeriodicalExam exam) {
+        return super.find(exam.getCode()) != null;
+    }
+
 }

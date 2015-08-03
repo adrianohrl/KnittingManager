@@ -19,31 +19,49 @@ import kmm.paycheck.TimeClockEvent;
 public class TimeClockEventDAO extends DAO<TimeClockEvent, Long> implements ComplexObject<TimeClockEvent>, ComplexObjectRelated<TimeClockEvent> {
 
     public TimeClockEventDAO(EntityManager em) {
-        super(em);
+        super(em, TimeClockEvent.class);
     }
 
     @Override
     public void createFullfilled(TimeClockEvent timeClockEvent) {
-        if (timeClockEvent == null) { 
+        if (timeClockEvent == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(timeClockEvent);
-        EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(timeClockEvent.getEmployee());
-        em.merge(timeClockEvent);
+        this.persist(timeClockEvent);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(TimeClockEvent timeClockEvent) {
+    public void persist(TimeClockEvent timeClockEvent) {
+        this.persist(timeClockEvent, timeClockEvent);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, TimeClockEvent timeClockEvent) {
+        if (beingCreated.equals(timeClockEvent)) {
+            em.merge(timeClockEvent);
+            return;
+        }
+        this.persist(timeClockEvent);
+    }
+
+    @Override
+    public void persist(Object beingCreated, TimeClockEvent timeClockEvent) {
         if (timeClockEvent == null) {
             return;
         }
-        em.persist(timeClockEvent);
+        if (!isRegistered(timeClockEvent)) {
+            em.persist(timeClockEvent);
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(timeClockEvent.getEmployee());
+        employeeDAO.creatingFullfilled(beingCreated, timeClockEvent.getEmployee());
         em.merge(timeClockEvent);
     }
-    
+
+    @Override
+    public boolean isRegistered(TimeClockEvent timeClockEvent) {
+        return super.find(timeClockEvent.getCode()) != null;
+    }
+
 }

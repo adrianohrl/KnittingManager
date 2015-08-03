@@ -17,7 +17,7 @@ import kmm.dao.DAO;
 public class LogDAO extends DAO<Log, Long> implements ComplexObject<Log> {
 
     public LogDAO(EntityManager em) {
-        super(em);
+        super(em, Log.class);
     }
 
     @Override
@@ -26,13 +26,28 @@ public class LogDAO extends DAO<Log, Long> implements ComplexObject<Log> {
             return;
         }
         em.getTransaction().begin();
-        em.persist(log);
-        KMMUserDAO userDAO = new KMMUserDAO(em);
-        userDAO.creatingFullfilled(log.getUser());
-        LogActionDAO logActionDAO = new LogActionDAO(em);
-        logActionDAO.creatingFullfilled(log.getAction());
-        em.merge(log);
+        this.persist(log);
         em.getTransaction().commit();
     }
-    
+
+    @Override
+    public void persist(Log log) {
+        if (log == null) {
+            return;
+        }
+        if (!isRegistered(log)) {
+            em.persist(log);
+        }
+        KMMUserDAO userDAO = new KMMUserDAO(em);
+        userDAO.creatingFullfilled(log, log.getUser());
+        LogActionDAO logActionDAO = new LogActionDAO(em);
+        logActionDAO.creatingFullfilled(log, log.getAction());
+        em.merge(log);
+    }
+
+    @Override
+    public boolean isRegistered(Log log) {
+        return super.find(log.getCode()) != null;
+    }
+
 }

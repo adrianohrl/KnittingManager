@@ -16,7 +16,11 @@ import kmm.DescriptableObject;
 public abstract class DescriptableObjectDAO<D extends DescriptableObject> extends NameableObjectDAO<D> {
 
     public DescriptableObjectDAO(EntityManager em) {
-        super(em);
+        super(em, DescriptableObject.class);
+    }
+    
+    protected DescriptableObjectDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
     }
     
 }

@@ -6,8 +6,6 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
-import kmm.dao.ComplexObject;
-import kmm.dao.ComplexObjectRelated;
 import kmm.documents.CarteiraDeTrabalho;
 import kmm.documents.EmploymentContract;
 import kmm.documents.SalaryAlteration;
@@ -17,34 +15,31 @@ import kmm.documents.VacationNote;
  *
  * @author adrianohrl
  */
-public class CarteiraDeTrabalhoDAO extends IndividualDocumentDAO<CarteiraDeTrabalho> implements ComplexObject<CarteiraDeTrabalho>, ComplexObjectRelated<CarteiraDeTrabalho> {
+public class CarteiraDeTrabalhoDAO extends IndividualDocumentDAO<CarteiraDeTrabalho> {
 
     public CarteiraDeTrabalhoDAO(EntityManager em) {
-        super(em);
+        super(em, CarteiraDeReservistaDAO.class);
     }
 
     @Override
-    public void createFullfilled(CarteiraDeTrabalho carteiraDeTrabalho) {
-        this.creatingFullfilled(carteiraDeTrabalho);
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(CarteiraDeTrabalho carteiraDeTrabalho) {
-        super.creatingFullfilled(carteiraDeTrabalho);
+    public void persist(Object beingCreated, CarteiraDeTrabalho carteiraDeTrabalho) {
+        if (carteiraDeTrabalho == null) {
+            return;
+        }
+        super.persist(beingCreated, carteiraDeTrabalho);
         EmploymentContractDAO contractDAO = new EmploymentContractDAO(em);
-        for (EmploymentContract contract: carteiraDeTrabalho.getContracts()) {
-            contractDAO.creatingFullfilled(contract);
+        for (EmploymentContract contract : carteiraDeTrabalho.getContracts()) {
+            contractDAO.creatingFullfilled(beingCreated, contract);
         }
         SalaryAlterationDAO salaryAlterationDAO = new SalaryAlterationDAO(em);
         for (SalaryAlteration salaryAlteration : carteiraDeTrabalho.getSalaryAlterations()) {
-            salaryAlterationDAO.creatingFullfilled(salaryAlteration);
+            salaryAlterationDAO.creatingFullfilled(beingCreated, salaryAlteration);
         }
         VacationNoteDAO vacationNoteDAO = new VacationNoteDAO(em);
         for (VacationNote vacationNote : carteiraDeTrabalho.getVacationNotes()) {
-            vacationNoteDAO.creatingFullfilled(vacationNote);
+            vacationNoteDAO.creatingFullfilled(beingCreated, vacationNote);
         }
         em.merge(carteiraDeTrabalho);
     }
-    
+
 }

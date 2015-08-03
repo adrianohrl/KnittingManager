@@ -17,21 +17,22 @@ import kmm.agents.Skill;
 public abstract class PersonWithSkillsDAO<P extends PersonWithSkills> extends PersonDAO<P> {
 
     public PersonWithSkillsDAO(EntityManager em) {
-        super(em);
+        super(em, PersonWithSkills.class);
     }
-
-    @Override
-    public void createFullfilled(P personWithSkills) {
-        this.creatingFullfilled(personWithSkills);
-        em.getTransaction().commit();
+    
+    protected PersonWithSkillsDAO(EntityManager em, Class clazz) {
+        super(em, clazz);
     }
-
+    
     @Override
-    public void creatingFullfilled(P personWithSkills) {
-        super.creatingFullfilled(personWithSkills);
+    public void persist(Object beingCreated, P personWithSkills) {
+        if (personWithSkills == null) {
+            return;
+        }
+        super.persist(beingCreated, personWithSkills);
         SkillDAO skillDAO = new SkillDAO(em);
         for (Skill skill : personWithSkills.getSkills()) {
-            skillDAO.creatingFullfilled(skill);
+            skillDAO.creatingFullfilled(beingCreated, skill);
         }
         em.merge(personWithSkills);
     }

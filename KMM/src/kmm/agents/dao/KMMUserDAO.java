@@ -17,23 +17,20 @@ import kmm.dao.ComplexObjectRelated;
 public class KMMUserDAO extends EmployeeDAO<KMMUser> implements ComplexObjectRelated<KMMUser> {
 
     public KMMUserDAO(EntityManager em) {
-        super(em);
+        super(em, KMMUser.class);
     }
 
     @Override
-    public void createFullfilled(KMMUser user) {
-        this.creatingFullfilled(user);
-        em.getTransaction().commit();
-    }
-
-    @Override
-    public void creatingFullfilled(KMMUser user) {
-        super.createFullfilled(user);
+    public void persist(Object beingCreated, KMMUser user) {
+        if (user == null) {
+            return;
+        }
+        super.persist(beingCreated, user);
         PrivilegeDAO privilegeDAO = new PrivilegeDAO(em);
         for (Privilege privilege : user.getPrivileges()) {
-            privilegeDAO.creatingFullfilled(privilege);
+            privilegeDAO.creatingFullfilled(beingCreated, privilege);
         }
         em.merge(user);
     }
-    
+
 }

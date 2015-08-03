@@ -14,4 +14,6 @@ public interface ComplexObject<O> {
     
     public abstract void createFullfilled(O o);
     
+    public abstract void persist(O o);
+    
 }

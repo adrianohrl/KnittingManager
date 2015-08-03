@@ -13,16 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import kmm.documents.CNH;
-import kmm.documents.CPF;
-import kmm.documents.CarteiraDeReservista;
-import kmm.documents.CarteiraDeTrabalho;
-import kmm.documents.PIS;
-import kmm.documents.Passport;
-import kmm.documents.RG;
-import kmm.documents.TituloDeEleitor;
-import kmm.paycheck.Salary;
-import kmm.paycheck.Schedule;
 
 /**
  *
@@ -58,14 +48,6 @@ public class KMMUser extends Employee implements Serializable {
         this.password = password;
         this.lastLoginDate = lastLoginDate;
         this.lastLogoutDate = lastLogoutDate;
-        this.privileges = privileges;
-    }
-
-    public KMMUser(String login, String password, boolean master, List<Privilege> privileges, int bookNumber, int pageNumber, Calendar hiringDate, Calendar firingDate, float workload, Profession profession, WorkingPeriod period, CarteiraDeTrabalho carteiraDeTrabalho, PIS pis, Salary salary, Schedule schedule, List<Skill> skills, String name, Calendar dob, String phone, String fatherName, String motherName, String nationality, String email, Gender gender, CivilStatus civilStatus, Address address, RG rg, CPF cpf, CNH cnh, TituloDeEleitor tituloDeEleitor, CarteiraDeReservista reservista, Passport passport) {
-        super(bookNumber, pageNumber, hiringDate, firingDate, workload, profession, period, carteiraDeTrabalho, pis, salary, schedule, skills, name, dob, phone, fatherName, motherName, nationality, email, gender, civilStatus, address, rg, cpf, cnh, tituloDeEleitor, reservista, passport);
-        this.login = login;
-        this.password = password;
-        this.master = master;
         this.privileges = privileges;
     }
 

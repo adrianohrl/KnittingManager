@@ -17,15 +17,27 @@ import kmm.dao.DAO;
 public class AddressDAO extends DAO<Address, Long> implements ComplexObjectRelated<Address> {
 
     public AddressDAO(EntityManager em) {
-        super(em);
+        super(em, Address.class);
     }
-    
+
     @Override
-    public void creatingFullfilled(Address address) {
+    public void creatingFullfilled(Object beingCreated, Address address) {
+        this.persist(beingCreated, address);
+    }
+
+    @Override
+    public void persist(Object beingCreated, Address address) {
         if (address == null) {
             return;
         }
-        em.persist(address);
+        if (!isRegistered(address)) {
+            em.persist(address);
+        }
     }
-    
+
+    @Override
+    public boolean isRegistered(Address address) {
+        return super.find(address.getCode()) != null;
+    }
+
 }

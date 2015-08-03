@@ -19,31 +19,49 @@ import kmm.documents.SalaryAlteration;
 public class SalaryAlterationDAO extends DAO<SalaryAlteration, Long> implements ComplexObject<SalaryAlteration>, ComplexObjectRelated<SalaryAlteration> {
 
     public SalaryAlterationDAO(EntityManager em) {
-        super(em);
+        super(em, SalaryAlteration.class);
     }
 
     @Override
     public void createFullfilled(SalaryAlteration salaryAlteration) {
-        if (salaryAlteration == null) { 
+        if (salaryAlteration == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(salaryAlteration);
-        EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(salaryAlteration.getResponsible());
-        em.merge(salaryAlteration);
+        this.persist(salaryAlteration);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(SalaryAlteration salaryAlteration) {
-        if (salaryAlteration == null) { 
+    public void persist(SalaryAlteration salaryAlteration) {
+        this.persist(salaryAlteration, salaryAlteration);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, SalaryAlteration salaryAlteration) {
+        if (beingCreated.equals(salaryAlteration)) {
+            em.merge(salaryAlteration);
             return;
         }
-        em.persist(salaryAlteration);
+        this.persist(beingCreated, salaryAlteration);
+    }
+
+    @Override
+    public void persist(Object beingCreated, SalaryAlteration salaryAlteration) {
+        if (salaryAlteration == null) {
+            return;
+        }
+        if (!isRegistered(salaryAlteration)) {
+            em.persist(salaryAlteration);
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(salaryAlteration.getResponsible());
+        employeeDAO.creatingFullfilled(beingCreated, salaryAlteration.getResponsible());
         em.merge(salaryAlteration);
     }
-    
+
+    @Override
+    public boolean isRegistered(SalaryAlteration salaryAlteration) {
+        return super.find(salaryAlteration.getCode()) != null;
+    }
+
 }

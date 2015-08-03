@@ -20,35 +20,51 @@ import kmm.documents.EmploymentContract;
 public class EmploymentContractDAO extends DAO<EmploymentContract, Long> implements ComplexObject<EmploymentContract>, ComplexObjectRelated<EmploymentContract> {
 
     public EmploymentContractDAO(EntityManager em) {
-        super(em);
+        super(em, EmploymentContract.class);
     }
 
     @Override
     public void createFullfilled(EmploymentContract contract) {
-        if (contract == null) { 
+        if (contract == null) {
             return;
         }
         em.getTransaction().begin();
-        em.persist(contract);
-        CompanyDAO companyDAO = new CompanyDAO(em);
-        companyDAO.creatingFullfilled(contract.getCompany());
-        ProfessionDAO professionDAO = new ProfessionDAO(em);
-        professionDAO.creatingFullfilled(contract.getProfession());
-        em.merge(contract);
+        this.persist(contract);
         em.getTransaction().commit();
     }
 
     @Override
-    public void creatingFullfilled(EmploymentContract contract) {
-        if (contract == null) { 
+    public void persist(EmploymentContract contract) {
+        this.persist(contract, contract);
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, EmploymentContract contract) {
+        if (beingCreated.equals(contract)) {
+            em.merge(contract);
             return;
         }
-        em.persist(contract);
+        this.persist(beingCreated, contract);
+    }
+
+    @Override
+    public void persist(Object beingCreated, EmploymentContract contract) {
+        if (contract == null) {
+            return;
+        }
+        if (!isRegistered(contract)) {
+            em.persist(contract);
+        }
         CompanyDAO companyDAO = new CompanyDAO(em);
-        companyDAO.creatingFullfilled(contract.getCompany());
+        companyDAO.creatingFullfilled(beingCreated, contract.getCompany());
         ProfessionDAO professionDAO = new ProfessionDAO(em);
-        professionDAO.creatingFullfilled(contract.getProfession());
+        professionDAO.creatingFullfilled(beingCreated, contract.getProfession());
         em.merge(contract);
     }
-    
+
+    @Override
+    public boolean isRegistered(EmploymentContract contract) {
+        return super.find(contract.getCode()) != null;
+    }
+
 }
