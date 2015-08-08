@@ -5,7 +5,6 @@
  */
 package kmm.documents;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import kmm.agents.Person;
@@ -15,39 +14,39 @@ import kmm.agents.Person;
  * @author adrianohrl
  */
 @Entity
-public class TituloDeEleitor extends IndividualDocument implements Serializable {
+public class TituloDeEleitor extends IndividualDocument {
 
-    private int zoneNumber;
-    private int sectionNumber;
+    private String zoneNumber;
+    private String sectionNumber;
     
     public TituloDeEleitor() {
     }
 
-    public TituloDeEleitor(int zone, int section, Person individual, String number) {
+    public TituloDeEleitor(String zone, String section, Person individual, String number) {
         super(individual, number);
         this.zoneNumber = zone;
         this.sectionNumber = section;
     }
 
-    public TituloDeEleitor(int zone, int section, Person individual, String number, Calendar emissionDate) {
+    public TituloDeEleitor(String zone, String section, Person individual, String number, Calendar emissionDate) {
         super(individual, number, emissionDate);
         this.zoneNumber = zone;
         this.sectionNumber = section;
     }
 
-    public int getZoneNumber() {
+    public String getZoneNumber() {
         return zoneNumber;
     }
 
-    public void setZoneNumber(int zone) {
+    public void setZoneNumber(String zone) {
         this.zoneNumber = zone;
     }
 
-    public int getSectionNumber() {
+    public String getSectionNumber() {
         return sectionNumber;
     }
 
-    public void setSectionNumber(int section) {
+    public void setSectionNumber(String section) {
         this.sectionNumber = section;
     }
     

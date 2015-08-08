@@ -14,7 +14,7 @@ import javax.persistence.Id;
  * @author adrianohrl
  */
 @Entity
-public abstract class NameableObject implements Serializable {
+public class NameableObject implements Serializable {
     
     @Id
     private String name;
@@ -24,6 +24,11 @@ public abstract class NameableObject implements Serializable {
 
     public NameableObject(String name) {
         this.name = name;
+    }
+    
+    @Override
+    public String toString() {
+        return name;
     }
 
     public String getName() {

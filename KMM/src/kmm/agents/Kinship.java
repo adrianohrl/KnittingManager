@@ -6,7 +6,6 @@
 package kmm.agents;
 
 import kmm.NameableObject;
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -14,13 +13,34 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class Kinship extends NameableObject implements Serializable {
+public class Kinship extends NameableObject {
+    
+    private boolean child;
+    private boolean spouse;
 
     public Kinship() {
     }
 
-    public Kinship(String kinship) {
-        super(kinship);
+    public Kinship(boolean child, boolean spouse, String name) {
+        super(name);
+        this.child = child;
+        this.spouse = spouse;
+    }
+
+    public boolean isChild() {
+        return child;
+    }
+
+    public void setChild(boolean child) {
+        this.child = child;
+    }
+
+    public boolean isSpouse() {
+        return spouse;
+    }
+
+    public void setSpouse(boolean spouse) {
+        this.spouse = spouse;
     }
     
 }

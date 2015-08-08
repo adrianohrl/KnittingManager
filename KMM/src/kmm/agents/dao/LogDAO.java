@@ -39,7 +39,7 @@ public class LogDAO extends DAO<Log, Long> implements ComplexObject<Log> {
             em.persist(log);
         }
         KMMUserDAO userDAO = new KMMUserDAO(em);
-        userDAO.creatingFullfilled(log, log.getUser());
+        //userDAO.creatingFullfilled(log, log.getUser());
         LogActionDAO logActionDAO = new LogActionDAO(em);
         logActionDAO.creatingFullfilled(log, log.getAction());
         em.merge(log);

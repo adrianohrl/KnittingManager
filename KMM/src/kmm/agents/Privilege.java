@@ -14,7 +14,7 @@ import javax.persistence.Id;
  * @author adrianohrl
  */
 @Entity
-public class Privilege /*extends DescriptableObject*/ implements Serializable {
+public class Privilege implements Serializable {
     
     @Id
     private String privilege;

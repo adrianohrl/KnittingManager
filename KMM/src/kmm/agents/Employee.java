@@ -5,7 +5,6 @@
  */
 package kmm.agents;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +23,7 @@ import kmm.paycheck.Schedule;
  * @author adrianohrl
  */
 @Entity
-public class Employee extends PersonWithSkills implements Serializable {
+public class Employee extends PersonWithSkills {
     
     private int bookNumber;
     private int pageNumber;
@@ -35,8 +34,7 @@ public class Employee extends PersonWithSkills implements Serializable {
     private float workload;
     @OneToOne
     private Profession profession;
-    @OneToOne
-    private WorkingPeriod period;
+    private String workingPeriod;
     @OneToMany
     private List<PeriodicalExam> exams = new ArrayList<>();
     @OneToOne
@@ -55,6 +53,10 @@ public class Employee extends PersonWithSkills implements Serializable {
     public Employee() {
     }
     
+    public Employee(Person employee) {
+        super(employee);
+    }
+    
     public Employee(Employee employee) {
         super(employee);
         this.bookNumber = employee.bookNumber;
@@ -63,7 +65,7 @@ public class Employee extends PersonWithSkills implements Serializable {
         this.firingDate = employee.firingDate;
         this.workload = employee.workload;
         this.profession = employee.profession;
-        this.period = employee.period;
+        this.workingPeriod = employee.workingPeriod;
         this.exams = employee.exams;
         this.lastExam = employee.lastExam;
         this.carteiraDeTrabalho = employee.carteiraDeTrabalho;
@@ -81,11 +83,25 @@ public class Employee extends PersonWithSkills implements Serializable {
         this.firingDate = firingDate;
         this.workload = workload;
         this.profession = profession;
-        this.period = period;
+        this.workingPeriod = period.getName();
         this.carteiraDeTrabalho = carteiraDeTrabalho;
         this.pis = pis;
         this.salary = salary;
         this.schedule = schedule;
+    }
+    
+    public PeriodicalExam calculateLastExam() {
+        PeriodicalExam lastExam = null;
+        for (PeriodicalExam exam : exams) {
+            if (lastExam == null || exam.after(lastExam)) {
+                lastExam = exam;
+            }
+        }
+        return lastExam;
+    }
+
+    public void setWorkingPeriod(WorkingPeriod period) {
+        this.workingPeriod = period.getName();
     }
 
     public int getBookNumber() {
@@ -136,12 +152,12 @@ public class Employee extends PersonWithSkills implements Serializable {
         this.profession = profession;
     }
 
-    public WorkingPeriod getPeriod() {
-        return period;
+    public String getPeriod() {
+        return workingPeriod;
     }
 
-    public void setPeriod(WorkingPeriod period) {
-        this.period = period;
+    public void setPeriod(String period) {
+        this.workingPeriod = period;
     }
 
     public List<PeriodicalExam> getExams() {

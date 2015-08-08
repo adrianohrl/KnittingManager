@@ -55,7 +55,7 @@ public class SalaryAlterationDAO extends DAO<SalaryAlteration, Long> implements 
             em.persist(salaryAlteration);
         }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(beingCreated, salaryAlteration.getResponsible());
+       // employeeDAO.creatingFullfilled(beingCreated, salaryAlteration.getResponsible());
         em.merge(salaryAlteration);
     }
 

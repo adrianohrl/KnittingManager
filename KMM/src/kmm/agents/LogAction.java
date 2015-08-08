@@ -6,7 +6,6 @@
 package kmm.agents;
 
 import kmm.DescriptableObject;
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -14,7 +13,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class LogAction extends DescriptableObject implements Serializable {
+public class LogAction extends DescriptableObject {
 
     public LogAction() {
     }

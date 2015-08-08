@@ -14,7 +14,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class WorkingPeriod extends NameableObject implements Serializable {
+public class WorkingPeriod extends NameableObject {
 
     public WorkingPeriod() {
     }

@@ -11,32 +11,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Employee;
+import kmm.agents.EmployeeRelated;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class TimeClockEvent implements Serializable {
+public class TimeClockEvent implements Serializable, EmployeeRelated {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long code;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar eventDate;
-    @OneToOne
-    private Employee employee;
+    private String employeeName;
 
     public TimeClockEvent() {
     }
 
     public TimeClockEvent(Calendar eventDate, Employee employee) {
         this.eventDate = eventDate;
-        this.employee = employee;
+        this.employeeName = employee.getName();
     }
     
     /*public TimeClockEvent(String ddmmyyyyhhmmIIIIII) {
@@ -50,6 +49,11 @@ public class TimeClockEvent implements Serializable {
             eventDate = new GregorianCalendar(year, month, day, hour, minute);
         }
     }*/
+
+    @Override
+    public void setEmployee(Employee employee) {
+        this.employeeName = employee.getName();
+    }
     
     public boolean before(TimeClockEvent when) {
         return this.eventDate.before(when.eventDate);
@@ -79,12 +83,12 @@ public class TimeClockEvent implements Serializable {
         this.eventDate = eventDate;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
     
 }

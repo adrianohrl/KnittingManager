@@ -33,6 +33,7 @@ public class PrivilegeDAO extends DAO<Privilege, String> /*DescriptableObjectDAO
         if (!isRegistered(privilege)) {
             em.persist(privilege);
         }
+        em.merge(privilege);
     }
 
     @Override

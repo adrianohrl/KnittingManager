@@ -18,5 +18,14 @@ public class PassportDAO extends IndividualDocumentDAO<Passport> implements Comp
     public PassportDAO(EntityManager em) {
         super(em, Passport.class);
     }
+
+    @Override
+    public void remove(Passport passport) {
+        if (passport == null) {
+            return;
+        }
+        //passport.getIndividual().setPassport(null);
+        super.remove(passport);
+    }
     
 }

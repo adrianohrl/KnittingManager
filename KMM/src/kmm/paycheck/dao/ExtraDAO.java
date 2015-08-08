@@ -8,14 +8,14 @@ package kmm.paycheck.dao;
 import javax.persistence.EntityManager;
 import kmm.dao.ComplexObject;
 import kmm.dao.ComplexObjectRelated;
-import kmm.dao.NameableObjectDAO;
+import kmm.dao.DAO;
 import kmm.paycheck.Extra;
 
 /**
  *
  * @author adrianohrl
  */
-public class ExtraDAO extends NameableObjectDAO<Extra> implements ComplexObject<Extra>, ComplexObjectRelated<Extra> {
+public class ExtraDAO extends DAO<Extra, Long> implements ComplexObject<Extra>, ComplexObjectRelated<Extra> {
 
     public ExtraDAO(EntityManager em) {
         super(em, Extra.class);
@@ -41,10 +41,20 @@ public class ExtraDAO extends NameableObjectDAO<Extra> implements ComplexObject<
         if (extra == null) {
             return;
         }
-        super.persist(beingCreated, extra);
+        //super.persist(beingCreated, extra);
         DayTypeDAO typeDAO = new DayTypeDAO(em);
-        typeDAO.creatingFullfilled(beingCreated, extra.getDayType());
+        //typeDAO.creatingFullfilled(beingCreated, extra.getDayType());
         em.merge(extra);
+    }
+
+    @Override
+    public boolean isRegistered(Extra entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void creatingFullfilled(Object beingCreated, Extra t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

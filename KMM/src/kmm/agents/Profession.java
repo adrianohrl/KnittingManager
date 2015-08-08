@@ -6,7 +6,6 @@
 package kmm.agents;
 
 import kmm.NameableObject;
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -14,7 +13,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class Profession extends NameableObject implements Serializable {
+public class Profession extends NameableObject {
     
     private int registration;
     private long cboAndMteNumber;

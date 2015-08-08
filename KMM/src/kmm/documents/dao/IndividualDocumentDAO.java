@@ -59,8 +59,17 @@ public abstract class IndividualDocumentDAO<ID extends IndividualDocument> exten
             em.persist(individualDocument);
         }
         PersonDAO personDAO = new PersonDAO(em);
-        personDAO.creatingFullfilled(beingCreated, individualDocument.getIndividual());
+        //personDAO.creatingFullfilled(beingCreated, individualDocument.getIndividual());
         em.merge(individualDocument);
+    }
+    
+    public void remove(ID individualDocument) {
+        if (individualDocument == null || !isRegistered(individualDocument)) {
+            return;
+        }
+        //individualDocument.setIndividual(null);
+        super.update(individualDocument);
+        super.remove(individualDocument.getNumber());
     }
 
 }

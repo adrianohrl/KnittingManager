@@ -7,37 +7,36 @@ package kmm.paycheck;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import kmm.NameableObject;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class Extra extends NameableObject implements Serializable {
+public class Extra implements Serializable {
     
-    private float percentage;
+    @Id
+    private long code;
     private float valuePerHour;
     @OneToOne
-    private DayType dayType;
+    private HourType type;
 
     public Extra() {
     }
 
-    public Extra(String extra, float percentage, float valuePerHour, DayType dayType) {
-        super(extra);
-        this.percentage = percentage;
+    public Extra(float valuePerHour, HourType type) {
         this.valuePerHour = valuePerHour;
-        this.dayType = dayType;
+        this.type = type;
     }
 
-    public float getPercentage() {
-        return percentage;
+    public long getCode() {
+        return code;
     }
 
-    public void setPercentage(float percentage) {
-        this.percentage = percentage;
+    public void setCode(long code) {
+        this.code = code;
     }
 
     public float getValuePerHour() {
@@ -48,12 +47,12 @@ public class Extra extends NameableObject implements Serializable {
         this.valuePerHour = valuePerHour;
     }
 
-    public DayType getDayType() {
-        return dayType;
+    public HourType getType() {
+        return type;
     }
 
-    public void setDayType(DayType dayType) {
-        this.dayType = dayType;
+    public void setType(HourType type) {
+        this.type = type;
     }
     
 }

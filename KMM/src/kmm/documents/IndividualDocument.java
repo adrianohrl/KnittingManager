@@ -5,41 +5,44 @@
  */
 package kmm.documents;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import kmm.agents.Person;
+import kmm.agents.PersonRelated;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public abstract class IndividualDocument extends Document implements Serializable {
+public class IndividualDocument extends Document implements PersonRelated {
     
-    @OneToOne
-    private Person individual;
+    private String individualName;
 
     public IndividualDocument() {
     }
 
     public IndividualDocument(Person individual, String number) {
         super(number);
-        this.individual = individual;
+        this.individualName = individual.getName();
     }
 
     public IndividualDocument(Person individual, String number, Calendar emissionDate) {
         super(number, emissionDate);
-        this.individual = individual;
+        this.individualName = individual.getName();
     }
     
-    public Person getIndividual() {
-        return individual;
+    public String getIndividual() {
+        return individualName;
     }
 
-    public void setIndividual(Person individual) {
-        this.individual = individual;
+    public void setPerson(String individualName) {
+        this.individualName = individualName;
+    }
+
+    @Override
+    public void setPerson(Person individual) {
+        this.individualName = individual.getName();
     }
     
 }

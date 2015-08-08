@@ -5,7 +5,6 @@
  */
 package kmm;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -13,7 +12,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public abstract class DescriptableObject extends NameableObject implements Serializable {
+public class DescriptableObject extends NameableObject {
     
     private String description;
 
@@ -24,7 +23,7 @@ public abstract class DescriptableObject extends NameableObject implements Seria
         super(name);
     }
 
-    public DescriptableObject(String description, String name) {
+    public DescriptableObject(String name, String description) {
         super(name);
         this.description = description;
     }

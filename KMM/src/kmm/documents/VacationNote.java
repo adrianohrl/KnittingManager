@@ -11,17 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Employee;
+import kmm.agents.EnvolvesResponsibility;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class VacationNote implements Serializable {
+public class VacationNote implements Serializable, EnvolvesResponsibility {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,8 +32,7 @@ public class VacationNote implements Serializable {
     private Calendar endDate;
     @Temporal(TemporalType.DATE)
     private Calendar noteDate;
-    @OneToOne
-    private Employee responsible;
+    private String responsibleName;
 
     public VacationNote() {
     }
@@ -42,7 +41,12 @@ public class VacationNote implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.noteDate = noteDate;
-        this.responsible = responsible;
+        this.responsibleName = responsible.getName();
+    }
+
+    @Override
+    public void setResponsible(Employee responsible) {
+        this.responsibleName = responsible.getName();
     }
 
     public long getCode() {
@@ -77,12 +81,12 @@ public class VacationNote implements Serializable {
         this.noteDate = noteDate;
     }
 
-    public Employee getResponsible() {
-        return responsible;
+    public String getResponsibleName() {
+        return responsibleName;
     }
 
-    public void setResponsible(Employee responsible) {
-        this.responsible = responsible;
+    public void setResponsibleName(String responsibleName) {
+        this.responsibleName = responsibleName;
     }
     
 }

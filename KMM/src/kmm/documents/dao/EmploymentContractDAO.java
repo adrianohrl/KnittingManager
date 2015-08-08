@@ -56,9 +56,9 @@ public class EmploymentContractDAO extends DAO<EmploymentContract, Long> impleme
             em.persist(contract);
         }
         CompanyDAO companyDAO = new CompanyDAO(em);
-        companyDAO.creatingFullfilled(beingCreated, contract.getCompany());
+        //companyDAO.creatingFullfilled(beingCreated, contract.getCompany());
         ProfessionDAO professionDAO = new ProfessionDAO(em);
-        professionDAO.creatingFullfilled(beingCreated, contract.getProfession());
+        //professionDAO.creatingFullfilled(beingCreated, contract.getProfession());
         em.merge(contract);
     }
 

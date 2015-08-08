@@ -15,13 +15,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Employee;
+import kmm.agents.EnvolvesResponsibility;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class SalaryAlteration implements Serializable {
+public class SalaryAlteration implements Serializable, EnvolvesResponsibility {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +31,7 @@ public class SalaryAlteration implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar alterationDate;
     private String reason;
-    @OneToOne
-    private Employee responsible;
+    private String responsibleName;
 
     public SalaryAlteration() {
     }
@@ -40,7 +40,12 @@ public class SalaryAlteration implements Serializable {
         this.newSalary = newSalary;
         this.alterationDate = alterationDate;
         this.reason = reason;
-        this.responsible = responsible;
+        this.responsibleName = responsible.getName();
+    }
+
+    @Override
+    public void setResponsible(Employee responsible) {
+        this.responsibleName = responsible.getName();
     }
 
     public long getCode() {
@@ -75,12 +80,12 @@ public class SalaryAlteration implements Serializable {
         this.reason = reason;
     }
 
-    public Employee getResponsible() {
-        return responsible;
+    public String getResponsibleName() {
+        return responsibleName;
     }
 
-    public void setResponsible(Employee responsible) {
-        this.responsible = responsible;
+    public void setResponsibleName(String responsibleName) {
+        this.responsibleName = responsibleName;
     }
     
 }

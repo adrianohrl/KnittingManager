@@ -18,7 +18,7 @@ import kmm.documents.VacationNote;
 public class CarteiraDeTrabalhoDAO extends IndividualDocumentDAO<CarteiraDeTrabalho> {
 
     public CarteiraDeTrabalhoDAO(EntityManager em) {
-        super(em, CarteiraDeReservistaDAO.class);
+        super(em, CarteiraDeTrabalho.class);
     }
 
     @Override

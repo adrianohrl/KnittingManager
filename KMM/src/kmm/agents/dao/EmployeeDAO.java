@@ -5,6 +5,7 @@
  */
 package kmm.agents.dao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import kmm.agents.Dependent;
 import kmm.agents.Employee;
@@ -38,8 +39,6 @@ public class EmployeeDAO<E extends Employee> extends PersonWithSkillsDAO<E> impl
         super.persist(beingCreated, employee);
         ProfessionDAO professionDAO = new ProfessionDAO(em);
         professionDAO.creatingFullfilled(beingCreated, employee.getProfession());
-        WorkingPeriodDAO periodDAO = new WorkingPeriodDAO(em);
-        periodDAO.creatingFullfilled(beingCreated, employee.getPeriod());
         PeriodicalExamDAO examDAO = new PeriodicalExamDAO(em);
         for (PeriodicalExam exam : employee.getExams()) {
             examDAO.creatingFullfilled(beingCreated, exam);
@@ -58,6 +57,37 @@ public class EmployeeDAO<E extends Employee> extends PersonWithSkillsDAO<E> impl
         ScheduleDAO scheduleDAO = new ScheduleDAO(em);
         scheduleDAO.creatingFullfilled(beingCreated, employee.getSchedule());
         em.merge(employee);
+    }
+    
+    @Override
+    public void remove(E employee) {
+        if (employee == null || !isRegistered(employee)) {
+            return;
+        }
+        employee.setProfession(null);
+        employee.setPeriod(null);
+        employee.setLastExam(null);
+        PeriodicalExamDAO examDAO = new PeriodicalExamDAO(em);
+        List<PeriodicalExam> exams = employee.getExams();
+        for (PeriodicalExam exam : exams) {
+            exams.remove(exam);
+            examDAO.remove(exam.getCode());
+        }
+        CarteiraDeTrabalhoDAO carteiraDeTrabalhoDAO = new CarteiraDeTrabalhoDAO(em);
+        carteiraDeTrabalhoDAO.remove(employee.getCarteiraDeTrabalho());
+        PISDAO pisDAO = new PISDAO(em);
+        pisDAO.remove(employee.getPis());
+        DependentDAO dependentDAO = new DependentDAO(em);
+        List<Dependent> dependents = employee.getDependents();
+        for (Dependent dependent : dependents) {
+            dependents.remove(dependent);
+            dependentDAO.remove(dependent);
+        }
+        SalaryDAO salaryDAO = new SalaryDAO(em);
+        salaryDAO.remove(employee.getSalary());
+        ScheduleDAO scheduleDAO = new ScheduleDAO(em);
+        scheduleDAO.remove(employee.getSchedule());
+        super.remove(employee);
     }
 
 }

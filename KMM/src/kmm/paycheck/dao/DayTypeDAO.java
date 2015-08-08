@@ -41,8 +41,8 @@ public class DayTypeDAO extends DescriptableObjectDAO<DayType> implements Comple
             return;
         }
         super.persist(beingCreated, type);
-        ExtraDAO extraDAO = new ExtraDAO(em);
-        extraDAO.creatingFullfilled(beingCreated, type.getExtra());
+        //ExtraDAO extraDAO = new ExtraDAO(em);
+        //extraDAO.creatingFullfilled(beingCreated, type.getExtra());
         em.merge(type);
     }
 

@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
  * @author adrianohrl
  */
 @Entity
-public class Log implements Serializable {
+public class Log implements Serializable, UserRelated {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,8 +28,7 @@ public class Log implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar logDate;
     private String description;
-    @OneToOne
-    private KMMUser user;
+    private String userName;
     @OneToOne
     private LogAction action;
 
@@ -39,8 +38,13 @@ public class Log implements Serializable {
     public Log(Calendar logDate, String description, KMMUser user, LogAction action) {
         this.logDate = logDate;
         this.description = description;
-        this.user = user;
+        this.userName = user.getName();
         this.action = action;
+    }
+
+    @Override
+    public void setUser(KMMUser user) {
+        this.userName = user.getName();
     }
 
     public long getCode() {
@@ -67,12 +71,12 @@ public class Log implements Serializable {
         this.description = description;
     }
 
-    public KMMUser getUser() {
-        return user;
+    public String getUser() {
+        return userName;
     }
 
-    public void setUser(KMMUser user) {
-        this.user = user;
+    public void setUser(String user) {
+        this.userName = user;
     }
 
     public LogAction getAction() {

@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  * @author adrianohrl
  */
 @Entity
-public abstract class Company implements Serializable {
+public class Company implements Serializable {
     
     @Id
     private String businessName;

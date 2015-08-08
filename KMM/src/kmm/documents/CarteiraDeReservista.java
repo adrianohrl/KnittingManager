@@ -5,7 +5,6 @@
  */
 package kmm.documents;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import kmm.agents.Person;
@@ -15,7 +14,7 @@ import kmm.agents.Person;
  * @author adrianohrl
  */
 @Entity
-public class CarteiraDeReservista extends IndividualDocument implements Serializable {
+public class CarteiraDeReservista extends IndividualDocument {
     
     private String serie;
     private long ra;

@@ -15,7 +15,7 @@ import javax.persistence.Persistence;
  */
 public class DataSource {
     
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("KMMPU");
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmmPU");
 
     private DataSource() {
 

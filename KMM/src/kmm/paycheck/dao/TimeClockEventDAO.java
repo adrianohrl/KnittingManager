@@ -55,7 +55,7 @@ public class TimeClockEventDAO extends DAO<TimeClockEvent, Long> implements Comp
             em.persist(timeClockEvent);
         }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(beingCreated, timeClockEvent.getEmployee());
+        //employeeDAO.creatingFullfilled(beingCreated, timeClockEvent.getEmployee());
         em.merge(timeClockEvent);
     }
 

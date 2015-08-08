@@ -10,56 +10,75 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Employee;
+import kmm.agents.EmployeeRelated;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class Salary implements Serializable {
+public class Salary implements Serializable, EmployeeRelated {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long code;
+    private String employeeName;
     private float amount;
     private boolean perUnit = false;
-    private String periodOfTime;
+    @OneToOne
+    private PaymentPeriod paymentPeriod;
     @Temporal(TemporalType.DATE)
     private Calendar assignedDate;
     public static final int NUMBER_OF_WEEKS_PER_MONTH = 5;
     public static final int NUMBER_OF_HOURS_PER_WEEK = 44;
     public static final int NUMBER_OF_HOURS_PER_MONTH = 220;
-    @OneToOne
-    private Employee employee;
     @OneToMany
     private List<Extra> extras = new ArrayList<>();
-
-    public Salary(float amount, boolean perUnit, String periodOfTime, Calendar assignedDate, Employee employee, List<Extra> extras) {
-        this.amount = amount;
-        this.perUnit = perUnit;
-        this.periodOfTime = periodOfTime;
-        this.assignedDate = assignedDate;
-        this.employee = employee;
-        this.extras = extras;
-    }
 
     public Salary() {
     }
 
-    public long getCode() {
-        return code;
+    public Salary(float amount, boolean perUnit, PaymentPeriod period, Calendar assignedDate, Employee employee, List<HourType> types) {
+        this.amount = amount;
+        this.perUnit = perUnit;
+        this.paymentPeriod = period;
+        this.assignedDate = assignedDate;
+        this.employeeName = employee.getName();
+        for (HourType type : types) {
+            float extraAmount = (1 + type.getPercentage()) * this.amount;
+            extras.add(new Extra(extraAmount, type));
+        }
     }
 
-    public void setCode(long code) {
-        this.code = code;
+    @Override
+    public void setEmployee(Employee employee) {
+        this.employeeName = employee.getName();
+    }
+    
+    public void setExtrasUsingTypes(List<HourType> types) {
+        if (!paymentPeriod.isTemporal()) {
+            return;
+        }
+        for (HourType type : types) {
+            float extraAmount = (1 + type.getPercentage()) * getAmountPerHours();
+            extras.add(new Extra(extraAmount, type));
+        }
+    }
+    
+    private float getAmountPerHours() {
+        return paymentPeriod.getConversionFactor() * amount / NUMBER_OF_HOURS_PER_MONTH;
+    }
+
+    public void setAssignedDate(Calendar assignedDate) {
+        this.assignedDate = assignedDate;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
     }
 
     public float getAmount() {
@@ -78,28 +97,20 @@ public class Salary implements Serializable {
         this.perUnit = perUnit;
     }
 
-    public String getPeriodOfTime() {
-        return periodOfTime;
+    public PaymentPeriod getPaymentPeriod() {
+        return paymentPeriod;
     }
 
-    public void setPeriodOfTime(String periodOfTime) {
-        this.periodOfTime = periodOfTime;
+    public void setPaymentPeriod(PaymentPeriod paymentPeriod) {
+        this.paymentPeriod = paymentPeriod;
     }
 
     public Calendar getAssignedDate() {
         return assignedDate;
     }
 
-    public void setAssignedDate(Calendar assignedDate) {
-        this.assignedDate = assignedDate;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public List<Extra> getExtras() {

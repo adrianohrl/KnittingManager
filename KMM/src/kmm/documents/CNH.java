@@ -5,10 +5,8 @@
  */
 package kmm.documents;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Person;
@@ -18,12 +16,10 @@ import kmm.agents.Person;
  * @author adrianohrl
  */
 @Entity
-public class CNH extends IndividualDocument implements Serializable {
+public class CNH extends IndividualDocument {
 
-    @OneToOne
-    private RG rg;
-    @OneToOne
-    private CPF cpf;
+    private String rgNumber;
+    private String cpfNumber;
     private String category;
     @Temporal(TemporalType.DATE)
     private Calendar firstCNH;
@@ -46,18 +42,21 @@ public class CNH extends IndividualDocument implements Serializable {
 
     public CNH(String category, Calendar expirationDate, Person individual, String number) {
         super(individual, number);
-        this.rg = individual.getRg();
-        this.cpf = individual.getCpf();
+        RG rg = individual.getRg();
+        if (rg != null) {
+            this.rgNumber = rg.getNumber();
+        }
+        CPF cpf = individual.getCpf();
+        if (cpf != null) {
+            this.cpfNumber = cpf.getNumber();
+        }
         this.category = category;
         this.expirationDate = expirationDate;
     }
 
     public CNH(String category, Calendar expirationDate, Person individual, String number, Calendar emissionDate) {
-        super(individual, number, emissionDate);
-        this.rg = individual.getRg();
-        this.cpf = individual.getCpf();
-        this.category = category;
-        this.expirationDate = expirationDate;
+        this(category, expirationDate, individual, number);
+        super.setEmissionDate(emissionDate);
     }
 
     public CNH(String category, Calendar firstCNH, Calendar expirationDate, String observations, Person individual, String number, Calendar emissionDate) {
@@ -72,20 +71,28 @@ public class CNH extends IndividualDocument implements Serializable {
         this.acc = acc;
     }
 
-    public RG getRg() {
-        return rg;
-    }
-
     public void setRg(RG rg) {
-        this.rg = rg;
-    }
-
-    public CPF getCpf() {
-        return cpf;
+        this.rgNumber = rg.getNumber();
     }
 
     public void setCpf(CPF cpf) {
-        this.cpf = cpf;
+        this.cpfNumber = cpf.getNumber();
+    }
+
+    public String getRgNumber() {
+        return rgNumber;
+    }
+
+    public void setRgNumber(String rgNumber) {
+        this.rgNumber = rgNumber;
+    }
+
+    public String getCpfNumber() {
+        return cpfNumber;
+    }
+
+    public void setCpfNumber(String cpfNumber) {
+        this.cpfNumber = cpfNumber;
     }
 
     public String getCategory() {

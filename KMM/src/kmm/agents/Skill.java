@@ -5,21 +5,32 @@
  */
 package kmm.agents;
 
-import kmm.NameableObject;
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class Skill extends NameableObject implements Serializable {
+public class Skill implements Serializable {
+    
+    @Id
+    private String skill;
 
     public Skill() {
     }
 
     public Skill(String skill) {
-        super(skill);
+        this.skill = skill;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 }

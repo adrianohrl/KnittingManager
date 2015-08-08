@@ -5,7 +5,6 @@
  */
 package kmm.agents;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 
@@ -14,9 +13,13 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class IndependentContractor extends PersonWithSkills implements Serializable {
+public class IndependentContractor extends PersonWithSkills {
 
     public IndependentContractor() {
+    }
+    
+    public IndependentContractor(Person contractor) {
+        super(contractor);
     }
     
     public IndependentContractor(IndependentContractor contractor) {

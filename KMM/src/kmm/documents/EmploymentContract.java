@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import kmm.agents.Company;
@@ -30,10 +29,8 @@ public class EmploymentContract implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar hiringDate;
     private float salary;
-    @OneToOne
-    private Company company;
-    @OneToOne
-    private Profession profession;
+    private String companyName;
+    private String professionName;
 
     public EmploymentContract() {
     }
@@ -41,8 +38,16 @@ public class EmploymentContract implements Serializable {
     public EmploymentContract(Calendar hiringDate, float salary, Company company, Profession profession) {
         this.hiringDate = hiringDate;
         this.salary = salary;
-        this.company = company;
-        this.profession = profession;
+        this.companyName = company.getBusinessName();
+        this.professionName = profession.getName();
+    }
+
+    public void setCompany(Company company) {
+        this.companyName = company.getBusinessName();
+    }
+
+    public void setProfession(Profession profession) {
+        this.professionName = profession.getName();
     }
 
     public long getCode() {
@@ -69,20 +74,20 @@ public class EmploymentContract implements Serializable {
         this.salary = salary;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public Profession getProfession() {
-        return profession;
+    public String getProfessionName() {
+        return professionName;
     }
 
-    public void setProfession(Profession profession) {
-        this.profession = profession;
+    public void setProfessionName(String professionName) {
+        this.professionName = professionName;
     }
     
 }

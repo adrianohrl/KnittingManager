@@ -37,4 +37,13 @@ public abstract class PersonWithSkillsDAO<P extends PersonWithSkills> extends Pe
         em.merge(personWithSkills);
     }
     
+    @Override
+    public void remove(P personWithSkills) {
+        if (personWithSkills == null || !isRegistered(personWithSkills)) {
+            return;
+        }
+        personWithSkills.getSkills().clear();
+        super.remove(personWithSkills);
+    }
+    
 }

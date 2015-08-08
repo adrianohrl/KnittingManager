@@ -5,6 +5,7 @@
  */
 package kmm.paycheck.dao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import kmm.agents.dao.EmployeeDAO;
 import kmm.dao.ComplexObject;
@@ -17,7 +18,7 @@ import kmm.paycheck.Schedule;
  *
  * @author adrianohrl
  */
-public class ScheduleDAO extends DAO<Schedule, Long> implements ComplexObject<Schedule>, ComplexObjectRelated<Schedule> {
+public class ScheduleDAO extends DAO<Schedule, String> implements ComplexObject<Schedule>, ComplexObjectRelated<Schedule> {
 
     public ScheduleDAO(EntityManager em) {
         super(em, Schedule.class);
@@ -56,7 +57,7 @@ public class ScheduleDAO extends DAO<Schedule, Long> implements ComplexObject<Sc
             em.persist(schedule);
         }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(beingCreated, schedule.getEmployee());
+        //employeeDAO.creatingFullfilled(beingCreated, schedule.getEmployee());
         DailyEstablishedHourDAO dailyEstablishedHourDAO = new DailyEstablishedHourDAO(em);
         for (DailyEstablishedHour dailyEstablishedHour : schedule.getBankOfHours()) {
             dailyEstablishedHourDAO.creatingFullfilled(beingCreated, dailyEstablishedHour);
@@ -66,7 +67,22 @@ public class ScheduleDAO extends DAO<Schedule, Long> implements ComplexObject<Sc
 
     @Override
     public boolean isRegistered(Schedule schedule) {
-        return super.find(schedule.getCode()) != null;
+        return super.find(schedule.getEmployeeName()) != null;
+    }
+    
+    public void remove(Schedule schedule) {
+        if (schedule == null || !isRegistered(schedule)) {
+            return;
+        }
+        schedule.setEmployee(null);
+        DailyEstablishedHourDAO dailyEstablishedHourDAO = new DailyEstablishedHourDAO(em);
+        List<DailyEstablishedHour> dailyEstablishedHours = schedule.getBankOfHours();
+        for (DailyEstablishedHour dailyEstablishedHour : dailyEstablishedHours) {
+            dailyEstablishedHours.remove(dailyEstablishedHour);
+            dailyEstablishedHourDAO.remove(dailyEstablishedHour.getCode());
+        }
+        super.update(schedule);
+        super.remove(schedule.getEmployeeName());
     }
 
 }

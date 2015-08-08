@@ -35,6 +35,11 @@ public abstract class Document implements Serializable {
         this.number = number;
         this.emissionDate = emissionDate;
     }
+    
+    @Override
+    public String toString() {
+        return number;
+    }
 
     public String getNumber() {
         return number;

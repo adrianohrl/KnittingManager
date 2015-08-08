@@ -9,26 +9,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import kmm.agents.Employee;
+import kmm.agents.EmployeeRelated;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class Schedule implements Serializable {
+public class Schedule implements Serializable, EmployeeRelated {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long code;
+    private String employeeName;
     private float workload; //in minutes
-    @OneToOne
-    private Employee employee;
     @OneToMany
     private List<DailyEstablishedHour> bankOfHours = new ArrayList<>();
     public static final int NUMBER_OF_MINUTES_PER_HOUR = 60;
@@ -40,7 +35,7 @@ public class Schedule implements Serializable {
     }
 
     public Schedule(Employee employee, List<DailyEstablishedHour> bankOfHours) {
-        this.employee = employee;
+        this.employeeName = employee.getName();
         this.bankOfHours = bankOfHours;
         this.calculateWorkload();
     }
@@ -55,12 +50,9 @@ public class Schedule implements Serializable {
         this.workload = workload;
     }
 
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
+    @Override
+    public void setEmployee(Employee employee) {
+        this.employeeName = employee.getName();
     }
 
     public float getWorkload() {
@@ -71,12 +63,12 @@ public class Schedule implements Serializable {
         this.workload = workload;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public List<DailyEstablishedHour> getBankOfHours() {

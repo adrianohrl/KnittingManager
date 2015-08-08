@@ -55,7 +55,7 @@ public class VacationNoteDAO extends DAO<VacationNote, Long> implements ComplexO
             em.persist(vacationNote);
         }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(beingCreated, vacationNote.getResponsible());
+        //employeeDAO.creatingFullfilled(beingCreated, vacationNote.getResponsible());
         em.merge(vacationNote);
     }
 

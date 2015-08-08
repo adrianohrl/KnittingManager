@@ -5,51 +5,59 @@
  */
 package kmm.agents;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author adrianohrl
  */
 @Entity
-public class Dependent extends Person implements Serializable {
+public class Dependent extends Person implements EmployeeRelated {
     
-    @ManyToOne
-    private Employee employee;
-    @OneToOne
-    private Kinship kinship;
+    private String employeeName;
+    private String kinship;
 
     public Dependent() {
     }
     
+    public Dependent(Person dependent) {
+        super(dependent);
+    }
+    
     public Dependent(Dependent dependent) {
         super(dependent);
-        this.employee = dependent.employee;
+        this.employeeName = dependent.employeeName;
         this.kinship = dependent.kinship;
     }
 
     public Dependent(Employee employee, Kinship kinship, Person person) {
         super(person);
-        this.employee = employee;
-        this.kinship = kinship;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Kinship getKinship() {
-        return kinship;
+        this.employeeName = employee.getName();
+        this.kinship = kinship.getName();
     }
 
     public void setKinship(Kinship kinship) {
+        this.kinship = kinship.getName();
+    }
+
+    @Override
+    public void setEmployee(Employee employee) {
+        this.employeeName = employee.getName();
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public String getKinship() {
+        return kinship;
+    }
+
+    public void setKinship(String kinship) {
         this.kinship = kinship;
     }
     

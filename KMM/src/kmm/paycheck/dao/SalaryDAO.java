@@ -17,7 +17,7 @@ import kmm.paycheck.Salary;
  *
  * @author adrianohrl
  */
-public class SalaryDAO extends DAO<Salary, Long> implements ComplexObject<Salary>, ComplexObjectRelated<Salary> {
+public class SalaryDAO extends DAO<Salary, String> implements ComplexObject<Salary>, ComplexObjectRelated<Salary> {
 
     public SalaryDAO(EntityManager em) {
         super(em, Salary.class);
@@ -56,7 +56,7 @@ public class SalaryDAO extends DAO<Salary, Long> implements ComplexObject<Salary
             em.persist(salary);
         }
         EmployeeDAO employeeDAO = new EmployeeDAO(em);
-        employeeDAO.creatingFullfilled(beingCreated, salary.getEmployee());
+        //employeeDAO.creatingFullfilled(beingCreated, salary.getEmployee());
         ExtraDAO extraDAO = new ExtraDAO(em);
         for (Extra extra : salary.getExtras()) {
             extraDAO.creatingFullfilled(beingCreated, extra);
@@ -66,7 +66,17 @@ public class SalaryDAO extends DAO<Salary, Long> implements ComplexObject<Salary
 
     @Override
     public boolean isRegistered(Salary salary) {
-        return super.find(salary.getCode()) != null;
+        return super.find(salary.getEmployeeName()) != null;
+    }
+    
+    public void remove(Salary salary) {
+        if (salary == null || !isRegistered(salary)) {
+            return;
+        }
+        salary.setEmployee(null);
+        salary.getExtras().clear();
+        super.update(salary);
+        super.remove(salary.getEmployeeName());
     }
 
 }

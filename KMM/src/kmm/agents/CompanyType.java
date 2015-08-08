@@ -14,7 +14,7 @@ import javax.persistence.Entity;
  * @author adrianohrl
  */
 @Entity
-public class CompanyType extends NameableObject implements Serializable {
+public class CompanyType extends NameableObject {
     
     private String abbreviation;
 

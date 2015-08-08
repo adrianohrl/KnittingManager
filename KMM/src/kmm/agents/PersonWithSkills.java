@@ -5,7 +5,6 @@
  */
 package kmm.agents;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -16,15 +15,19 @@ import javax.persistence.OneToMany;
  * @author adrianohrl
  */
 @Entity
-public abstract class PersonWithSkills extends Person implements Serializable {
+public class PersonWithSkills extends Person {
     
     @OneToMany
     private List<Skill> skills = new ArrayList<>();
 
-    public PersonWithSkills() {
+    protected PersonWithSkills() {
     }
     
-    public PersonWithSkills(PersonWithSkills personWithSkills) {
+    protected PersonWithSkills(Person personWithSkills) {
+        super(personWithSkills);
+    }
+    
+    protected PersonWithSkills(PersonWithSkills personWithSkills) {
         super(personWithSkills);
         this.skills = personWithSkills.skills;
     }

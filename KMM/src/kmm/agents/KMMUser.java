@@ -5,7 +5,6 @@
  */
 package kmm.agents;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,7 +18,7 @@ import javax.persistence.TemporalType;
  * @author adrianohrl
  */
 @Entity
-public class KMMUser extends Employee implements Serializable {
+public class KMMUser extends Employee {
     
     private String login;
     private String password;
@@ -32,6 +31,10 @@ public class KMMUser extends Employee implements Serializable {
     private List<Privilege> privileges = new ArrayList<>();
 
     public KMMUser() {
+    }
+    
+    public KMMUser(Employee employee) {
+        super(employee);
     }
     
     public KMMUser(KMMUser user) {

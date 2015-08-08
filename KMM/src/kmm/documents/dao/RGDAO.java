@@ -6,7 +6,9 @@
 package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
+import kmm.agents.Person;
 import kmm.dao.ComplexObjectRelated;
+import kmm.documents.CNH;
 import kmm.documents.RG;
 
 /**
@@ -17,6 +19,22 @@ public class RGDAO extends IndividualDocumentDAO<RG> implements ComplexObjectRel
 
     public RGDAO(EntityManager em) {
         super(em, RG.class);
+    }
+    
+    @Override
+    public void remove(RG rg) {
+        if (rg == null) {
+            return;
+        }
+        /*Person person = rg.getIndividual();
+        person.setRg(null);
+        CNH cnh = person.getCnh();
+        if (cnh != null) {
+            cnh.setRg(null);
+            CNHDAO cnhDAO = new CNHDAO(em);
+            cnhDAO.update(cnh);
+        }*/
+        super.remove(rg);
     }
     
 }

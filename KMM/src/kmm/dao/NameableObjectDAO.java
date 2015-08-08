@@ -36,6 +36,7 @@ public abstract class NameableObjectDAO<N extends NameableObject> extends DAO<N,
         if (!isRegistered(nameable)) {
             em.persist(nameable);
         }
+        em.merge(nameable);
     }
 
     @Override

@@ -33,4 +33,13 @@ public class KMMUserDAO extends EmployeeDAO<KMMUser> implements ComplexObjectRel
         em.merge(user);
     }
 
+    @Override
+    public void remove(KMMUser user) {
+        if (user == null || !isRegistered(user)) {
+            return;
+        }
+        user.getPrivileges().clear();
+        super.remove(user); 
+    }
+
 }

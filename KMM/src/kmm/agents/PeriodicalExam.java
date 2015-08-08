@@ -41,6 +41,14 @@ public class PeriodicalExam implements Serializable {
         this.examDate = examDate;
         this.observations = observations;
     }
+    
+    public boolean before(PeriodicalExam exam) {
+        return examDate.before(exam.examDate);
+    }
+    
+    public boolean after(PeriodicalExam exam) {
+        return examDate.after(exam.examDate);
+    }
 
     public long getCode() {
         return code;

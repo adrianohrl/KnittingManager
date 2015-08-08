@@ -7,7 +7,6 @@ package kmm.paycheck;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import kmm.DescriptableObject;
 
 /**
@@ -18,16 +17,15 @@ import kmm.DescriptableObject;
 public class DayType extends DescriptableObject implements Serializable {
     
     private char identifier;
-    @OneToOne
-    private Extra extra;
+    private boolean specialDay = false;
 
     public DayType() {
     }
 
-    public DayType(char identifier, Extra extra, String type, String description) {
-        super(type, description);
+    public DayType(char identifier, boolean specialDay, String name, String description) {
+        super(name, description);
         this.identifier = identifier;
-        this.extra = extra;
+        this.specialDay = specialDay;
     }
 
     public char getIdentifier() {
@@ -38,12 +36,12 @@ public class DayType extends DescriptableObject implements Serializable {
         this.identifier = identifier;
     }
 
-    public Extra getExtra() {
-        return extra;
+    public boolean isSpecialDay() {
+        return specialDay;
     }
 
-    public void setExtra(Extra extra) {
-        this.extra = extra;
+    public void setSpecialDay(boolean specialDay) {
+        this.specialDay = specialDay;
     }
     
 }

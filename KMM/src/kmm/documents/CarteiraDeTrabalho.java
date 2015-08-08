@@ -5,12 +5,13 @@
  */
 package kmm.documents;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import kmm.agents.Employee;
+import kmm.agents.EmployeeRelated;
 import kmm.agents.Person;
 
 /**
@@ -18,7 +19,7 @@ import kmm.agents.Person;
  * @author adrianohrl
  */
 @Entity
-public class CarteiraDeTrabalho extends IndividualDocument implements Serializable {
+public class CarteiraDeTrabalho extends IndividualDocument implements EmployeeRelated {
     
     private String serie;
     private String type = "Urbano";
@@ -28,6 +29,11 @@ public class CarteiraDeTrabalho extends IndividualDocument implements Serializab
     private List<SalaryAlteration> salaryAlterations = new ArrayList<>();
     @OneToMany
     private List<VacationNote> vacationNotes = new ArrayList<>();
+
+    @Override
+    public void setEmployee(Employee employee) {
+        super.setPerson(employee);
+    }
 
     public CarteiraDeTrabalho() {
     }

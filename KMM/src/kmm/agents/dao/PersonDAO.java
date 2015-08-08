@@ -6,6 +6,7 @@
 package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import kmm.agents.Person;
 import kmm.dao.ComplexObject;
 import kmm.dao.ComplexObjectRelated;
@@ -90,4 +91,27 @@ public class PersonDAO<P extends Person> extends DAO<P, String> implements Compl
         return super.find(person.getName()) != null;
     }
 
+    public void remove(P person) {
+        if (person == null || !isRegistered(person)) {
+            return;
+        }
+        person.setGender(null);
+        person.setCivilStatus(null);
+        person.setAddress(null);
+        RGDAO rgDAO = new RGDAO(em);
+        rgDAO.remove(person.getRg());
+        CPFDAO cpfDAO = new CPFDAO(em);
+        cpfDAO.remove(person.getCpf());
+        CNHDAO cnhDAO = new CNHDAO(em);
+        cnhDAO.remove(person.getCnh());
+        TituloDeEleitorDAO tituloDeEleitorDAO = new TituloDeEleitorDAO(em);
+        tituloDeEleitorDAO.remove(person.getTituloDeEleitor());
+        CarteiraDeReservistaDAO reservista = new CarteiraDeReservistaDAO(em);
+        reservista.remove(person.getReservista());
+        PassportDAO passportDAO = new PassportDAO(em);
+        passportDAO.remove(person.getPassport());
+        super.update(person);
+        super.remove(person.getName());
+    }
+    
 }
