@@ -19,15 +19,4 @@ public class PISDAO extends IndividualDocumentDAO<PIS> {
         super(em, PIS.class);
     }
 
-    @Override
-    public void persist(Object beingCreated, PIS pis) {
-        if (pis == null) {
-            return;
-        }
-        super.persist(beingCreated, pis);
-        BankDAO bankDAO = new BankDAO(em);
-        bankDAO.creatingFullfilled(beingCreated, pis.getBank());
-        em.merge(pis);
-    }
-
 }

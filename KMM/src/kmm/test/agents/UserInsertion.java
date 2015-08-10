@@ -68,9 +68,10 @@ public class UserInsertion {
         marcos.setCpf(new CPF(marcos, "089.290.628-65"));
         marcos.setTituloDeEleitor(new TituloDeEleitor("146", "0037", marcos, "120789 19021-3"));
         
-        //personDAO.createFullfilled(marcos);
+        //personDAO.create(marcos);
         Employee marcosEmp = new Employee(marcos);
-        //personDAO.remove(marcos);
+        //personDAO.remove(marcos.getName());
+        //em.clear();
         
         marcosEmp.setCarteiraDeTrabalho(new CarteiraDeTrabalho("0042 SP", marcosEmp, "17553"));
         List<Extra> extras = new ArrayList<>();
@@ -81,9 +82,9 @@ public class UserInsertion {
         marcosEmp.getSkills().add(skillDAO.find("Liderar"));
         marcosEmp.getSkills().add(skillDAO.find("Gestão de Pessoas"));
         
-        //employeeDAO.createFullfilled(marcosEmp);
+        //employeeDAO.create(marcosEmp);
         KMMUser marcosUsr = new KMMUser(marcosEmp);
-        //employeeDAO.remove(marcosEmp);
+        //employeeDAO.remove(marcosEmp.getName());
         
         marcosUsr.setLogin("mal");
         marcosUsr.setPassword("123456");
@@ -92,7 +93,8 @@ public class UserInsertion {
         marcosUsr.getPrivileges().add(privilegeDAO.find("Alteração"));
         marcosUsr.getPrivileges().add(privilegeDAO.find("Consulta"));
         
-        userDAO.createFullfilled(marcosUsr);
+        userDAO.create(marcosUsr);
+        //userDAO.remove(marcosUsr.getName());
         
         /************************* Eunice *******************************/
         
@@ -103,12 +105,12 @@ public class UserInsertion {
         eunice.setCivilStatus(casado);
         eunice.setAddress(address);
         
-        //personDAO.createFullfilled(eunice);
+        //personDAO.create(eunice);
         Dependent euniceDep = new Dependent(marcosUsr, conjuge, eunice);
-        //personDAO.remove(eunice);
+        //personDAO.remove(eunice.getName());
         
         marcosUsr.getDependents().add(euniceDep);
-        dependentDAO.createFullfilled(euniceDep);
+        dependentDAO.create(euniceDep);
 
         /************************* Adriano ******************************/
         
@@ -128,12 +130,12 @@ public class UserInsertion {
         adriano.setCnh(new CNH("AB", new GregorianCalendar(2011, 7 - 1, 21), new GregorianCalendar(2018, 2 - 1, 28), "", adriano, "05257269757", new GregorianCalendar(2013, 4 - 1, 2), false, false));
         adriano.setTituloDeEleitor(new TituloDeEleitor("146", "0039", adriano, "1869 1552 0272"));
         
-        //personDAO.createFullfilled(adriano);
+        //personDAO.create(adriano);
         Dependent adrianoDep = new Dependent(marcosUsr, filho, adriano);
-        //personDAO.remove(adriano);
+        //personDAO.remove(adriano.getName());
         
         marcosUsr.getDependents().add(adrianoDep);
-        dependentDAO.createFullfilled(adrianoDep);
+        dependentDAO.create(adrianoDep);
         
         /************************* Jaqueline ****************************/
         
@@ -145,12 +147,12 @@ public class UserInsertion {
         jaqueline.setCivilStatus(solteiro);
         jaqueline.setAddress(address);
         
-        //personDAO.createFullfilled(jaqueline);
+        //personDAO.create(jaqueline);
         Dependent jaquelineDep = new Dependent(marcosUsr, filho, jaqueline);
-        //personDAO.remove(jaqueline);
+        //personDAO.remove(jaqueline.getName());
         
         marcosUsr.getDependents().add(jaquelineDep);
-        dependentDAO.createFullfilled(jaquelineDep);
+        dependentDAO.create(jaquelineDep);
 
         /************************* Poliane ******************************/
         
@@ -161,20 +163,22 @@ public class UserInsertion {
         poliane.setGender(feminino);
         poliane.setCivilStatus(solteiro);
         
-        //personDAO.createFullfilled(poliane);
+        //personDAO.create(poliane);
         Dependent polianeDep = new Dependent(marcosUsr, filho, poliane);
-        //personDAO.remove(poliane);
+        //personDAO.remove(poliane.getName());
         
         marcosUsr.getDependents().add(polianeDep);
-        dependentDAO.createFullfilled(polianeDep);
+        dependentDAO.create(polianeDep);
         
         /************************ Remove all ****************************/
         
-        dependentDAO.remove(euniceDep);        
-        dependentDAO.remove(adrianoDep);
-        dependentDAO.remove(jaquelineDep);
-        dependentDAO.remove(polianeDep);
-        userDAO.remove(marcosUsr);
+        marcosUsr.getDependents().remove(euniceDep);
+        userDAO.update(marcosUsr);
+        //dependentDAO.remove(euniceDep.getName());        
+        //dependentDAO.remove(adrianoDep.getName());
+        //dependentDAO.remove(jaquelineDep.getName());
+        //dependentDAO.remove(polianeDep.getName());
+        userDAO.remove(marcosUsr.getName());
         
         em.close();
         DataSource.closeEntityManagerFactory();

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -26,8 +26,9 @@ public class KMMUser extends Employee {
     private Calendar lastLoginDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar lastLogoutDate;
+    private boolean logged = false;
     private boolean master = false;
-    @OneToMany
+    @ManyToMany
     private List<Privilege> privileges = new ArrayList<>();
 
     public KMMUser() {
@@ -84,6 +85,14 @@ public class KMMUser extends Employee {
 
     public void setLastLogoutDate(Calendar lastLogoutDate) {
         this.lastLogoutDate = lastLogoutDate;
+    }
+
+    public boolean isLogged() {
+        return logged;
+    }
+
+    public void setLogged(boolean logged) {
+        this.logged = logged;
     }
 
     public boolean isMaster() {

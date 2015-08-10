@@ -8,7 +8,9 @@ package kmm.agents;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -32,22 +34,23 @@ public class Employee extends PersonWithSkills {
     @Temporal(TemporalType.DATE)
     private Calendar firingDate;
     private float workload;
-    @OneToOne
+    @ManyToOne
     private Profession profession;
-    private String workingPeriod;
-    @OneToMany
+    @ManyToOne
+    private WorkingPeriod workingPeriod;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PeriodicalExam> exams = new ArrayList<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private PeriodicalExam lastExam;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CarteiraDeTrabalho carteiraDeTrabalho;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private PIS pis;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dependent> dependents = new ArrayList<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Salary salary;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Schedule schedule;
 
     public Employee() {
@@ -83,7 +86,7 @@ public class Employee extends PersonWithSkills {
         this.firingDate = firingDate;
         this.workload = workload;
         this.profession = profession;
-        this.workingPeriod = period.getName();
+        this.workingPeriod = period;
         this.carteiraDeTrabalho = carteiraDeTrabalho;
         this.pis = pis;
         this.salary = salary;
@@ -98,10 +101,6 @@ public class Employee extends PersonWithSkills {
             }
         }
         return lastExam;
-    }
-
-    public void setWorkingPeriod(WorkingPeriod period) {
-        this.workingPeriod = period.getName();
     }
 
     public int getBookNumber() {
@@ -152,12 +151,12 @@ public class Employee extends PersonWithSkills {
         this.profession = profession;
     }
 
-    public String getPeriod() {
+    public WorkingPeriod getWorkingPeriod() {
         return workingPeriod;
     }
 
-    public void setPeriod(String period) {
-        this.workingPeriod = period;
+    public void setWorkingPeriod(WorkingPeriod workingPeriod) {
+        this.workingPeriod = workingPeriod;
     }
 
     public List<PeriodicalExam> getExams() {

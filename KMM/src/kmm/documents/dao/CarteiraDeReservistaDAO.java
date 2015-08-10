@@ -17,14 +17,5 @@ public class CarteiraDeReservistaDAO extends IndividualDocumentDAO<CarteiraDeRes
     public CarteiraDeReservistaDAO(EntityManager em) {
         super(em, CarteiraDeReservista.class);
     }
-
-    @Override
-    public void remove(CarteiraDeReservista reservista) {
-        if (reservista == null) {
-            return;
-        }
-        //reservista.getIndividual().setReservista(null);
-        super.remove(reservista); 
-    }
     
 }

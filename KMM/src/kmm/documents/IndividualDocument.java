@@ -15,7 +15,7 @@ import kmm.agents.PersonRelated;
  * @author adrianohrl
  */
 @Entity
-public class IndividualDocument extends Document implements PersonRelated {
+public abstract class IndividualDocument extends Document implements PersonRelated {
     
     private String individualName;
 

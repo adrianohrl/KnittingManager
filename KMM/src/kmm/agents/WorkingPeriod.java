@@ -6,7 +6,6 @@
 package kmm.agents;
 
 import kmm.NameableObject;
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**

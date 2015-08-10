@@ -18,20 +18,4 @@ public class CPFDAO extends IndividualDocumentDAO<CPF> {
         super(em, CPF.class);
     }
     
-    @Override
-    public void remove(CPF cpf) {
-        if (cpf == null) {
-            return;
-        }
-        /*Person person = cpf.getIndividual();
-        person.setCpf(null);
-        CNH cnh = person.getCnh();
-        if (cnh != null) {
-            cnh.setCpf(null);
-            CNHDAO cnhDAO = new CNHDAO(em);
-            cnhDAO.update(cnh);
-        }*/
-        super.remove(cpf);
-    }
-    
 }

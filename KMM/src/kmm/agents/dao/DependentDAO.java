@@ -7,42 +7,15 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.Dependent;
-import kmm.dao.ComplexObjectRelated;
 
 /**
  *
  * @author adrianohrl
  */
-public class DependentDAO extends PersonDAO<Dependent> implements ComplexObjectRelated<Dependent> {
+public class DependentDAO extends PersonDAO<Dependent> {
 
     public DependentDAO(EntityManager em) {
         super(em, Dependent.class);
-    }
-
-    @Override
-    public void persist(Object beingCreated, Dependent dependent) {
-        if (dependent == null) {
-            return;
-        }
-        super.persist(beingCreated, dependent);
-        KinshipDAO kinshipDAO = new KinshipDAO(em);
-        //kinshipDAO.creatingFullfilled(beingCreated, dependent.getKinship());
-        em.merge(dependent);
-    }
-
-    @Override
-    public void remove(Dependent dependent) {
-        if (dependent == null || !isRegistered(dependent)) {
-            return;
-        }
-        /*Employee employee = dependent.getEmployee();
-        if (employee != null) {
-            employee.getDependents().remove(dependent);
-            EmployeeDAO employeeDAO = new EmployeeDAO(em);
-            employeeDAO.update(employee);
-        }*/
-        //dependent.setKinship(null);
-        super.remove(dependent);
     }
     
 }

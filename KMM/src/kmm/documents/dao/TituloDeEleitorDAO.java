@@ -17,14 +17,5 @@ public class TituloDeEleitorDAO extends IndividualDocumentDAO<TituloDeEleitor> {
     public TituloDeEleitorDAO(EntityManager em) {
         super(em, TituloDeEleitor.class);
     }
-
-    @Override
-    public void remove(TituloDeEleitor tituloDeEleitor) {
-        if (tituloDeEleitor == null) {
-            return;
-        }
-        //tituloDeEleitor.getIndividual().setTituloDeEleitor(null);
-        super.remove(tituloDeEleitor);
-    }
     
 }

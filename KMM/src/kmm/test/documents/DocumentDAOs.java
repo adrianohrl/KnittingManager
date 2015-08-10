@@ -33,13 +33,13 @@ public class DocumentDAOs {
         
         IndividualDocument doc = cnh;
         IndividualDocumentDAO cnhDAO = new CNHDAO(em);
-        cnhDAO.createFullfilled(doc);
+        cnhDAO.create(doc);
         
         p.setRg(new RG(p, "16-255.833 PC/MG"));
         p.getCnh().setRg(p.getRg());
         
         PersonDAO pDAO = new PersonDAO(em);
-        pDAO.createFullfilled(p);
+        pDAO.create(p);
         
         em.close();
         DataSource.closeEntityManagerFactory();

@@ -7,9 +7,6 @@ package kmm.documents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.documents.CarteiraDeTrabalho;
-import kmm.documents.EmploymentContract;
-import kmm.documents.SalaryAlteration;
-import kmm.documents.VacationNote;
 
 /**
  *
@@ -19,27 +16,6 @@ public class CarteiraDeTrabalhoDAO extends IndividualDocumentDAO<CarteiraDeTraba
 
     public CarteiraDeTrabalhoDAO(EntityManager em) {
         super(em, CarteiraDeTrabalho.class);
-    }
-
-    @Override
-    public void persist(Object beingCreated, CarteiraDeTrabalho carteiraDeTrabalho) {
-        if (carteiraDeTrabalho == null) {
-            return;
-        }
-        super.persist(beingCreated, carteiraDeTrabalho);
-        EmploymentContractDAO contractDAO = new EmploymentContractDAO(em);
-        for (EmploymentContract contract : carteiraDeTrabalho.getContracts()) {
-            contractDAO.creatingFullfilled(beingCreated, contract);
-        }
-        SalaryAlterationDAO salaryAlterationDAO = new SalaryAlterationDAO(em);
-        for (SalaryAlteration salaryAlteration : carteiraDeTrabalho.getSalaryAlterations()) {
-            salaryAlterationDAO.creatingFullfilled(beingCreated, salaryAlteration);
-        }
-        VacationNoteDAO vacationNoteDAO = new VacationNoteDAO(em);
-        for (VacationNote vacationNote : carteiraDeTrabalho.getVacationNotes()) {
-            vacationNoteDAO.creatingFullfilled(beingCreated, vacationNote);
-        }
-        em.merge(carteiraDeTrabalho);
     }
 
 }

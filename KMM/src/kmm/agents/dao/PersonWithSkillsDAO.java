@@ -7,7 +7,6 @@ package kmm.agents.dao;
 
 import javax.persistence.EntityManager;
 import kmm.agents.PersonWithSkills;
-import kmm.agents.Skill;
 
 /**
  *
@@ -22,28 +21,6 @@ public abstract class PersonWithSkillsDAO<P extends PersonWithSkills> extends Pe
     
     protected PersonWithSkillsDAO(EntityManager em, Class clazz) {
         super(em, clazz);
-    }
-    
-    @Override
-    public void persist(Object beingCreated, P personWithSkills) {
-        if (personWithSkills == null) {
-            return;
-        }
-        super.persist(beingCreated, personWithSkills);
-        SkillDAO skillDAO = new SkillDAO(em);
-        for (Skill skill : personWithSkills.getSkills()) {
-            skillDAO.creatingFullfilled(beingCreated, skill);
-        }
-        em.merge(personWithSkills);
-    }
-    
-    @Override
-    public void remove(P personWithSkills) {
-        if (personWithSkills == null || !isRegistered(personWithSkills)) {
-            return;
-        }
-        personWithSkills.getSkills().clear();
-        super.remove(personWithSkills);
     }
     
 }

@@ -6,6 +6,7 @@
 package kmm.agents;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -15,7 +16,8 @@ import javax.persistence.Entity;
 public class Dependent extends Person implements EmployeeRelated {
     
     private String employeeName;
-    private String kinship;
+    @ManyToOne
+    private Kinship kinship;
 
     public Dependent() {
     }
@@ -33,11 +35,7 @@ public class Dependent extends Person implements EmployeeRelated {
     public Dependent(Employee employee, Kinship kinship, Person person) {
         super(person);
         this.employeeName = employee.getName();
-        this.kinship = kinship.getName();
-    }
-
-    public void setKinship(Kinship kinship) {
-        this.kinship = kinship.getName();
+        this.kinship = kinship;
     }
 
     @Override
@@ -53,11 +51,11 @@ public class Dependent extends Person implements EmployeeRelated {
         this.employeeName = employeeName;
     }
 
-    public String getKinship() {
+    public Kinship getKinship() {
         return kinship;
     }
 
-    public void setKinship(String kinship) {
+    public void setKinship(Kinship kinship) {
         this.kinship = kinship;
     }
     

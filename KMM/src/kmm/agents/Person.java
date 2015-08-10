@@ -7,8 +7,10 @@ package kmm.agents;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,23 +37,23 @@ public class Person implements Serializable {
     private String motherName;
     private String nationality = "Brasileiro";
     private String email;
-    @OneToOne
+    @ManyToOne
     private Gender gender;
-    @OneToOne
+    @ManyToOne
     private CivilStatus civilStatus;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private RG rg;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CPF cpf;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CNH cnh;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private TituloDeEleitor tituloDeEleitor;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CarteiraDeReservista reservista;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Passport passport;
 
     public Person() {

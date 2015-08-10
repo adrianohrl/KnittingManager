@@ -8,6 +8,7 @@ package kmm.documents;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import kmm.agents.Employee;
@@ -23,11 +24,11 @@ public class CarteiraDeTrabalho extends IndividualDocument implements EmployeeRe
     
     private String serie;
     private String type = "Urbano";
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<EmploymentContract> contracts = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<SalaryAlteration> salaryAlterations = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<VacationNote> vacationNotes = new ArrayList<>();
 
     @Override
